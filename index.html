@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre Holistique & Soins Énergétiques | Raouia Gharbal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Tajawal', sans-serif;
+            background-color: #FBF9F5;
+            color: #2C3E35;
+            transition: all 0.3s ease;
+        }
+        .font-luxury {
+            font-family: 'Playfair Display', 'Tajawal', serif;
+        }
+        .lang-ar {
+            font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(27, 56, 48, 0.92) 0%, rgba(44, 78, 67, 0.88) 50%, rgba(74, 107, 93, 0.85) 100%), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1920&q=80') center/cover;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Top Announcement & Language Switcher Bar -->
+    <header class="bg-[#1B3830] text-[#E8E4DC] text-xs py-2.5 px-6 shadow-xs">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3 rtl:space-x-reverse font-light">
+                <span id="topAnnouncement"><i class="fas fa-spa mr-1 text-[#C5A059]"></i> Centre Holistique • المعالجة راوية غربال | Raouia Gharbal</span>
+            </div>
+            <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                <button onclick="switchLanguage('fr')" id="btnFr" class="px-3 py-1 rounded-md bg-[#C5A059] text-white font-medium text-xs transition shadow-xs">Français</button>
+                <button onclick="switchLanguage('ar')" id="btnAr" class="px-3 py-1 rounded-md bg-[#2C4A3E] hover:bg-[#385E50] text-xs transition text-[#E8E4DC]">العربية</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-[#FBF9F5]/90 backdrop-blur-md sticky top-0 z-50 border-b border-[#E8E4DC]/60 shadow-xs">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <img src="logo.png" alt="Logo" class="w-11 h-11 rounded-full border border-[#C5A059]/30">
+                    <div>
+                        <span id="navTitle" class="text-xl font-bold font-luxury text-[#1B3830] tracking-wide block leading-tight">Centre Holistique</span>
+                        <span id="navSubtitle" class="text-[11px] text-[#5A6E64] tracking-widest uppercase font-medium">Par Raouia Gharbal</span>
+                    </div>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 rtl:space-x-reverse text-sm font-medium text-[#3A4F44]">
+                    <a href="#home" class="hover:text-[#C5A059] transition" data-i18n="navHome">Accueil</a>
+                    <a href="#formations" class="hover:text-[#C5A059] transition" data-i18n="navFormations">Formations & Cours</a>
+                    <a href="#soins" class="hover:text-[#C5A059] transition" data-i18n="navSoins">Séances & Soins</a>
+                    <a href="#booking" class="hover:text-[#C5A059] transition" data-i18n="navBooking">Prendre RDV</a>
+                    <a href="javascript:void(0)" onclick="openAdminLoginModal()" class="bg-[#1B3830] text-white px-5 py-2.5 rounded-full hover:bg-[#2C4A3E] transition shadow-md font-semibold flex items-center space-x-2 rtl:space-x-reverse border border-[#C5A059]/30">
+                        <i class="fas fa-lock text-[#C5A059]"></i>
+                        <span data-i18n="navDashboard">Dashboard Admin</span>
+                    </a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-[#1B3830] focus:outline-none p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile dropdown menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-[#FBF9F5] border-b border-[#E8E4DC] px-6 py-4 space-y-3 shadow-lg">
+            <a href="#home" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navHome">Accueil</a>
+            <a href="#formations" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navFormations">Formations & Cours</a>
+            <a href="#soins" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navSoins">Séances & Soins</a>
+            <a href="#booking" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navBooking">Prendre RDV</a>
+            <a href="javascript:void(0)" onclick="openAdminLoginModal()" class="block py-3 bg-[#1B3830] text-white text-center rounded-xl font-semibold shadow-sm" data-i18n="navDashboard">Dashboard Admin</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-gradient text-white py-28 px-6 lg:px-8 relative overflow-hidden">
+            <div class="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+                <span class="inline-flex items-center space-x-2 rtl:space-x-reverse px-5 py-2 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold tracking-wider uppercase text-[#F3EFEA] border border-white/20 shadow-sm">
+                    <i class="fas fa-sparkles text-[#C5A059]"></i>
+                    <span data-i18n="heroBadge">Par Raouia Gharbal • المعالجة راوية غربال</span>
+                </span>
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight font-luxury leading-tight" data-i18n="heroTitle">
+                    Éveillez Votre Conscience & Libérez Votre Énergie Vitale
+                </h1>
+                <p class="text-lg sm:text-xl text-[#E8E4DC] max-w-2xl mx-auto font-light leading-relaxed" data-i18n="heroSubtitle">
+                    Séances de soins énergétiques personnalisées, thérapies quantiques et formations holistiques pour un alignement profond.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <a href="#booking" class="bg-[#C5A059] hover:bg-[#b08d47] text-[#1B3830] font-bold px-8 py-4 rounded-full shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 rtl:space-x-reverse">
+                        <i class="fab fa-whatsapp text-lg"></i>
+                        <span data-i18n="heroCtaRdv">Réserver via WhatsApp</span>
+                    </a>
+                    <a href="#soins" class="bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md text-white font-semibold px-8 py-4 rounded-full transition flex items-center justify-center space-x-2 rtl:space-x-reverse">
+                        <i class="fas fa-hands-holding-child"></i>
+                        <span data-i18n="heroCtaSoins">Découvrir les Séances</span>
+                    </a>
+                </div>
+            </div>
+            <div class="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-[#C5A059]/10 blur-3xl pointer-events-none"></div>
+            <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none"></div>
+        </section>
+
+        <!-- About Therapist Section -->
+        <section class="py-20 px-6 lg:px-8 max-w-5xl mx-auto">
+            <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-[#E8E4DC] flex flex-col md:flex-row items-center gap-10">
+                <img src="raouia.jpg" alt="Raouia Gharbal" class="w-40 h-40 rounded-full object-cover border-4 border-[#C5A059]/30">
+                <div class="space-y-4 text-center md:text-start rtl:md:text-right">
+                    <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]" data-i18n="therapistBadge">Votre Praticienne & Thérapeute</span>
+                    <h2 class="text-3xl font-bold font-luxury text-[#1B3830]" data-i18n="therapistName">Raouia Gharbal (راوية غربال)</h2>
+                    <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="therapistBio">
+                        Experte en thérapies énergétiques et quantiques, Raouia vous accompagne à travers des approches holistiques puissantes pour vous libérer des blocages karmiques, émotionnels et retrouver votre paix intérieure.
+                    </p>
+                    <div class="pt-2 flex justify-center md:justify-start rtl:md:justify-end gap-3">
+                        <a href="https://wa.me/216660344" target="_blank" class="inline-flex items-center space-x-2 rtl:space-x-reverse bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-full text-xs font-semibold shadow-sm transition">
+                            <i class="fab fa-whatsapp"></i>
+                            <span data-i18n="whatsappContactBtn">Contact WhatsApp (+216 660 344)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formations & Courses Section -->
+        <section id="formations" class="py-20 px-6 lg:px-8 max-w-7xl mx-auto bg-[#F3EFEA]/50 rounded-3xl my-8 border border-[#E8E4DC]/60">
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]" data-i18n="badgeFormationsSub">Apprentissage & Élévation</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-luxury text-[#1B3830]" data-i18n="formationsTitle">Nos Formations en Soins Énergétiques</h2>
+                <p class="text-[#5A6E64] max-w-xl mx-auto font-light text-sm sm:text-base" data-i18n="formationsSubtitle">Accédez à nos cours vidéo enrichissants pour devenir praticien certifié.</p>
+            </div>
+
+            <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Course 1 -->
+                <div class="bg-white rounded-3xl shadow-sm border border-[#E8E4DC] overflow-hidden hover:shadow-xl transition duration-300 group flex flex-col">
+                    <div class="h-48 bg-gradient-to-br from-[#1B3830] to-[#2C4A3E] flex items-center justify-center text-[#C5A059] text-5xl relative overflow-hidden">
+                        <i class="fas fa-hand-holding-heart transform group-hover:scale-110 transition duration-500"></i>
+                    </div>
+                    <div class="p-8 space-y-4 flex-grow flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[#1B3830] bg-[#E8E4DC]/60 px-3 py-1 rounded-full" data-i18n="badgeReiki">Niveau 1 & 2</span>
+                            <h3 class="text-xl font-bold font-luxury text-[#1B3830]" data-i18n="course1Title">Initiation au Reiki Usui</h3>
+                            <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="course1Desc">Apprenez à canaliser l'énergie universelle pour l'autoguérison et le soin des autres.</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-4 border-t border-[#E8E4DC]/60">
+                            <span class="text-[#1B3830] font-bold text-sm"><i class="fas fa-video mr-1.5 text-[#C5A059]"></i> 12 Vidéos</span>
+                            <button onclick="alert('Réservé aux membres inscrits.')" class="bg-[#1B3830] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[#C5A059] hover:text-[#1B3830] transition" data-i18n="watchBtn">Voir le cours</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="bg-white rounded-3xl shadow-sm border border-[#E8E4DC] overflow-hidden hover:shadow-xl transition duration-300 group flex flex-col">
+                    <div class="h-48 bg-gradient-to-br from-[#2C4A3E] to-[#4A6B5D] flex items-center justify-center text-[#C5A059] text-5xl relative overflow-hidden">
+                        <i class="fas fa-circle-nodes transform group-hover:scale-110 transition duration-500"></i>
+                    </div>
+                    <div class="p-8 space-y-4 flex-grow flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[#1B3830] bg-[#E8E4DC]/60 px-3 py-1 rounded-full" data-i18n="badgeChakras">Énergétique</span>
+                            <h3 class="text-xl font-bold font-luxury text-[#1B3830]" data-i18n="course2Title">Harmonisation des Chakras</h3>
+                            <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="course2Desc">Comprendre les 7 centres énergétiques principaux et libérer les blocages émotionnels.</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-4 border-t border-[#E8E4DC]/60">
+                            <span class="text-[#1B3830] font-bold text-sm"><i class="fas fa-video mr-1.5 text-[#C5A059]"></i> 8 Vidéos</span>
+                            <button onclick="alert('Réservé aux membres inscrits.')" class="bg-[#1B3830] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[#C5A059] hover:text-[#1B3830] transition" data-i18n="watchBtn">Voir le cours</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="bg-white rounded-3xl shadow-sm border border-[#E8E4DC] overflow-hidden hover:shadow-xl transition duration-300 group flex flex-col">
+                    <div class="h-48 bg-gradient-to-br from-[#385E50] to-[#5A7E70] flex items-center justify-center text-[#C5A059] text-5xl relative overflow-hidden">
+                        <i class="fas fa-sun transform group-hover:scale-110 transition duration-500"></i>
+                    </div>
+                    <div class="p-8 space-y-4 flex-grow flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[#1B3830] bg-[#E8E4DC]/60 px-3 py-1 rounded-full" data-i18n="badgeAura">Pratique</span>
+                            <h3 class="text-xl font-bold font-luxury text-[#1B3830]" data-i18n="course3Title">Nettoyage et Protection de l'Aura</h3>
+                            <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="course3Desc">Techniques avancées pour se protéger des énergies négatives et purifier son champ aurique.</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-4 border-t border-[#E8E4DC]/60">
+                            <span class="text-[#1B3830] font-bold text-sm"><i class="fas fa-video mr-1.5 text-[#C5A059]"></i> 10 Vidéos</span>
+                            <button onclick="alert('Réservé aux membres inscrits.')" class="bg-[#1B3830] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[#C5A059] hover:text-[#1B3830] transition" data-i18n="watchBtn">Voir le cours</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Soins & Séances Section -->
+        <section id="soins" class="py-24 px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]" data-i18n="badgeSoinsSub">Guérison & Transformation</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-luxury text-[#1B3830]" data-i18n="soinsTitle">Toutes nos Séances Thérapeutiques</h2>
+                <p class="text-[#5A6E64] max-w-xl mx-auto font-light text-sm sm:text-base" data-i18n="soinsSubtitle">Dispencées par Raouia Gharbal, réservez votre séance et contactez-nous directement sur WhatsApp pour confirmer.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1: Akashic -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة سجلات الاكاشا</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Accès à la bibliothèque de l'âme pour recevoir des réponses et des guidances profondes.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة سجلات الاكاشا')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Reiki -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة ريكي</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Soin énergétique par imposition des mains pour réharmoniser le corps et l'esprit.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة ريكي')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Card 3: Quantum Hypnosis -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة تنويم كمي</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Hypnose quantique pour accéder aux dimensions intérieures et reprogrammer le subconscient.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة تنويم كمي')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Card 4: ThetaHealing -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة ثيتا هيلينغ</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Technique de guérison énergétique par les ondes Theta pour libérer les croyances limitantes.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة ثيتا هيلينغ')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Card 5: Tarot -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-cards-blank"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة تاروت</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Guidance intuitive à travers les arcanes du tarot pour éclairer vos choix de vie.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة تاروت')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Card 6: Spiritual Counseling -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-om"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة استشارية روحية</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Accompagnement personnalisé pour votre cheminement spirituel et élévation de conscience.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة استشارية روحية')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Card 7: Psychological Session -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة نفسية</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Écoute bienveillante et soutien psychologique pour surmonter les épreuves émotionnelles.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة نفسية')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+
+                <!-- Card 8: Family Constellation -->
+                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-users-viewfinder"></i>
+                        </div>
+                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة الوقوف العائلي</h3>
+                        <p class="text-[#5A6E64] text-xs leading-relaxed">Libération des enchevêtrements familiaux inconscients et réconciliation transgénérationnelle.</p>
+                    </div>
+                    <div class="pt-6">
+                        <button onclick="selectServiceForBooking('جلسة الوقوف العائلي')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking & WhatsApp Section -->
+        <section id="booking" class="py-24 px-6 lg:px-8 max-w-4xl mx-auto">
+            <div class="bg-white rounded-3xl shadow-xl border border-[#E8E4DC] p-8 sm:p-14 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-48 h-48 bg-[#C5A059]/10 rounded-bl-full pointer-events-none"></div>
+                <div class="text-center space-y-3 mb-10 relative z-10">
+                    <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]">Paiement & Contact</span>
+                    <h2 class="text-3xl font-bold font-luxury text-[#1B3830]">Réservez & Payez via WhatsApp</h2>
+                    <p class="text-[#5A6E64] text-sm">Pour valider votre rendez-vous avec Raouia Gharbal, contactez-nous directement sur WhatsApp au <strong class="text-[#1B3830]">+216 660 344</strong>.</p>
+                </div>
+                <form id="whatsappBookingForm" onsubmit="handleWhatsAppBooking(event)" class="space-y-6 relative z-10">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Nom complet</label>
+                            <input type="text" id="waName" required class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Mode de Séance</label>
+                            <select id="waMode" class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                                <option value="En Ligne">En Ligne (Online)</option>
+                                <option value="Au Cabinet (Sfax/Tunis)">Au Cabinet (Sfax / Tunis)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Sélectionnez la Séance</label>
+                            <select id="waService" class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                                <option value="جلسة سجلات الاكاشا">جلسة سجلات الاكاشا (Akashic Records)</option>
+                                <option value="جلسة ريكي">جلسة ريكي (Reiki)</option>
+                                <option value="جلسة تنويم كمي">جلسة تنويم كمي (Quantum Hypnosis)</option>
+                                <option value="جلسة ثيتا هيلينغ">جلسة ثيتا هيلينغ (ThetaHealing)</option>
+                                <option value="جلسة تاروت">جلسة تاروت (Tarot)</option>
+                                <option value="جلسة استشارية روحية">جلسة استشارية روحية (Consultation Spirituelle)</option>
+                                <option value="جلسة نفسية">جلسة نفسية (Séance Psychologique)</option>
+                                <option value="جلسة الوقوف العائلي">جلسة الوقوف العائلي (Constellation Familiale)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Date souhaitée</label>
+                            <input type="date" id="waDate" required class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Téléphone / WhatsApp</label>
+                            <input type="text" id="waPhone" required class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="+216 ...">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Email (Optionnel)</label>
+                            <input type="email" id="waEmail" class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="exemple@gmail.com">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl shadow-md transition text-base tracking-wide flex items-center justify-center space-x-2 rtl:space-x-reverse">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        <span>Envoyer la demande sur WhatsApp (+216 660 344)</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- DASHBOARD ADMIN SECTION (Protected by Login) -->
+        <section id="dashboardSection" class="py-24 px-6 lg:px-8 max-w-7xl mx-auto hidden">
+            <div class="bg-white rounded-3xl shadow-xl border border-[#E8E4DC] p-8 sm:p-12">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6 border-b border-[#E8E4DC] pb-8">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[#C5A059] bg-[#1B3830]/5 px-3 py-1 rounded-full">Espace Privé Raouia Gharbal</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold font-luxury text-[#1B3830] mt-2">Tableau de Bord & Gestion des Séances</h2>
+                        <p class="text-[#5A6E64] text-sm mt-1">Gérez vos sessions privées et le catalogue des vidéos de formation.</p>
+                    </div>
+                    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <button onclick="openAddVideoModal()" class="bg-[#C5A059] hover:bg-[#b08d47] text-[#1B3830] px-5 py-3 rounded-2xl font-bold shadow-md transition flex items-center space-x-2 rtl:space-x-reverse text-sm">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Ajouter Vidéo</span>
+                        </button>
+                        <button onclick="lockAdminDashboard()" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-4 py-3 rounded-2xl font-semibold transition text-sm">
+                            <i class="fas fa-lock"></i> Déconnexion
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Overview Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+                    <div class="bg-[#FBF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex justify-between items-center">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-[#5A6E64]">Total Séances & Cours</p>
+                            <h3 id="statTotalVideos" class="text-3xl font-bold font-luxury text-[#1B3830] mt-1">8</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-xl flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                    </div>
+                    <div class="bg-[#FBF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex justify-between items-center">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-[#5A6E64]">Séances Privées Actives</p>
+                            <h3 class="text-3xl font-bold font-luxury text-[#1B3830] mt-1">8 Séances</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-xl flex items-center justify-center text-xl shadow-xs">
+                            <i class="fas fa-list-check"></i>
+                        </div>
+                    </div>
+                    <div class="bg-[#FBF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex justify-between items-center">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-[#5A6E64]">Contact WhatsApp</p>
+                            <h3 class="text-lg font-bold font-luxury text-[#1B3830] mt-1">+216 660 344</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-xl flex items-center justify-center text-xl shadow-xs">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Private Sessions Admin Table (Hidden from public) -->
+                <div class="bg-white rounded-2xl border border-[#E8E4DC] overflow-hidden mb-10 shadow-xs">
+                    <div class="px-6 py-4 bg-[#FBF9F5] border-b border-[#E8E4DC] flex justify-between items-center">
+                        <h3 class="font-bold text-[#1B3830] font-luxury text-lg">Liste Privée des Séances (Géré par Raouia)</h3>
+                        <span class="text-xs bg-[#1B3830] text-[#C5A059] px-3 py-1 rounded-full font-medium">Privé • Admin Only</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-[#3A4F44]">
+                            <thead class="bg-[#F3EFEA] uppercase text-[11px] font-semibold text-[#5A6E64] border-b border-[#E8E4DC]">
+                                <tr>
+                                    <th class="px-6 py-3.5">Nom de la Séance</th>
+                                    <th class="px-6 py-3.5">Catégorie / Type</th>
+                                    <th class="px-6 py-3.5">Disponibilité</th>
+                                    <th class="px-6 py-3.5">Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody id="privateSessionsTableBody">
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة سجلات الاكاشا</td><td class="px-6 py-4">Spirituel</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة ريكي</td><td class="px-6 py-4">Énergétique</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة تنويم كمي</td><td class="px-6 py-4">Quantique</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة ثيتا هيلينغ</td><td class="px-6 py-4">Guérison</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة تاروت</td><td class="px-6 py-4">Guidance</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة استشارية روحية</td><td class="px-6 py-4">Spiritualité</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة نفسية</td><td class="px-6 py-4">Psychologie</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة الوقوف العائلي</td><td class="px-6 py-4">Transgénérationnel</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Videos List Table -->
+                <div class="bg-white rounded-2xl border border-[#E8E4DC] overflow-hidden shadow-xs">
+                    <div class="px-6 py-4 bg-[#FBF9F5] border-b border-[#E8E4DC] flex justify-between items-center">
+                        <h3 class="font-bold text-[#1B3830] font-luxury text-lg">Catalogue des Vidéos de Cours</h3>
+                        <span class="text-xs text-[#5A6E64] font-medium">Géré en temps réel</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-[#3A4F44]">
+                            <thead class="bg-[#F3EFEA] uppercase text-[11px] font-semibold text-[#5A6E64] border-b border-[#E8E4DC]">
+                                <tr>
+                                    <th class="px-6 py-3.5">Titre de la Vidéo</th>
+                                    <th class="px-6 py-3.5">Catégorie</th>
+                                    <th class="px-6 py-3.5">Durée</th>
+                                    <th class="px-6 py-3.5">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminVideosTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1B3830] text-[#E8E4DC] py-16 px-6 lg:px-8 border-t border-[#2C4A3E]">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-3 rtl:space-x-reverse text-white">
+                    <div class="w-10 h-10 rounded-full bg-[#C5A059] text-[#1B3830] flex items-center justify-center font-bold text-lg shadow-md">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <span class="font-bold text-xl font-luxury">Centre Holistique</span>
+                </div>
+                <p class="text-sm text-[#D1CBC1] font-light leading-relaxed">Cabinet de soins énergétiques et formation holistique dirigé par Raouia Gharbal.</p>
+            </div>
+            <div class="space-y-4">
+                <h4 class="text-white font-semibold text-xs uppercase tracking-widest text-[#C5A059]">Liens Rapides</h4>
+                <ul class="space-y-2.5 text-sm font-light">
+                    <li><a href="#home" class="hover:text-[#C5A059] transition">Accueil</a></li>
+                    <li><a href="#formations" class="hover:text-[#C5A059] transition">Formations & Cours</a></li>
+                    <li><a href="#soins" class="hover:text-[#C5A059] transition">Séances & Soins</a></li>
+                    <li><a href="#booking" class="hover:text-[#C5A059] transition">Prendre RDV</a></li>
+                </ul>
+            </div>
+            <div class="space-y-4">
+                <h4 class="text-white font-semibold text-xs uppercase tracking-widest text-[#C5A059]">Contact & WhatsApp</h4>
+                <p class="text-sm font-light"><i class="fab fa-whatsapp mr-2.5 rtl:ml-2.5 text-[#C5A059]"></i> +216 660 344</p>
+                <p class="text-sm font-light"><i class="fas fa-envelope mr-2.5 rtl:ml-2.5 text-[#C5A059]"></i> rawiahealing@gmail.com</p>
+                <p class="text-sm font-light"><i class="fas fa-map-marker-alt mr-2.5 rtl:ml-2.5 text-[#C5A059]"></i> En ligne & Cabinet</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-8 border-t border-[#2C4A3E] text-center text-xs text-[#D1CBC1] font-light">
+            &copy; 2026 Centre Holistique - Raouia Gharbal. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- ADMIN LOGIN MODAL (لوقين ليلي) -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-8 space-y-6 shadow-2xl border border-[#E8E4DC]">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-full flex items-center justify-center text-xl mx-auto shadow-md">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="text-xl font-bold font-luxury text-[#1B3830]">Connexion Administrateur</h3>
+                <p class="text-xs text-[#5A6E64]">Espace réservé à la thérapeute Raouia Gharbal</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Mot de passe</label>
+                    <input type="password" id="adminPasswordInput" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm text-center tracking-widest" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full bg-[#1B3830] hover:bg-[#2C4A3E] text-white font-bold py-3 rounded-2xl shadow-sm text-sm transition">
+                    Se connecter
+                </button>
+                <button type="button" onclick="closeAdminLoginModal()" class="w-full text-xs text-[#5A6E64] hover:text-[#1B3830] pt-1">
+                    Fermer
+                </button>
+            </form>
+        </div>
+    </div>
+
+                <!-- ADD VIDEO MODAL -->
+    <div id="videoModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-8 space-y-6 shadow-2xl border border-[#E8E4DC]">
+            <div class="flex justify-between items-center border-b border-[#E8E4DC] pb-4">
+                <h3 class="text-xl font-bold font-luxury text-[#1B3830]">Ajouter un nouveau contenu</h3>
+                <button onclick="closeAddVideoModal()" class="text-[#5A6E64] hover:text-[#1B3830]"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <form id="addVideoForm" onsubmit="handleAddVideo(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Titre du cours</label>
+                    <input type="text" id="vidTitle" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Catégorie</label>
+                        <input type="text" id="vidCat" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Durée</label>
+                        <input type="text" id="vidDuration" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Lien Vidéo (YouTube)</label>
+                    <input type="text" id="vidUrl" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="https://youtube.com/...">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Lien Image de couverture</label>
+                    <input type="text" id="vidImg" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="https://imgbb.com/...">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Lien Audio (MP3)</label>
+                    <input type="text" id="vidAudio" class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="https://soundcloud.com/...">
+                </div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" onclick="closeAddVideoModal()" class="px-5 py-2.5 rounded-xl border border-[#E8E4DC] text-[#3A4F44] hover:bg-[#FBF9F5] text-sm font-semibold">Annuler</button>
+                    <button type="submit" class="px-6 py-2.5 bg-[#1B3830] hover:bg-[#2C4A3E] text-white font-semibold rounded-xl shadow-sm text-sm">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const translations = {
+            fr: {
+                topAnnouncement: "Centre Holistique • المعالجة راوية غربال | Raouia Gharbal",
+                navTitle: "Centre Holistique",
+                navSubtitle: "Par Raouia Gharbal",
+                navHome: "Accueil",
+                navFormations: "Formations & Cours",
+                navSoins: "Séances & Soins",
+                navBooking: "Prendre RDV",
+                navDashboard: "Dashboard Admin",
+                heroBadge: "Par Raouia Gharbal • المعالجة راوية غربال",
+                heroTitle: "Éveillez Votre Conscience & Libérez Votre Énergie Vitale",
+                heroSubtitle: "Séances de soins énergétiques personnalisées, thérapies quantiques et formations holistiques pour un alignement profond.",
+                heroCtaRdv: "Réserver via WhatsApp",
+                heroCtaSoins: "Découvrir les Séances",
+                therapistBadge: "Votre Praticienne & Thérapeute",
+                therapistName: "Raouia Gharbal (راوية غربال)",
+                therapistBio: "Experte en thérapies énergétiques et quantiques, Raouia vous accompagne à travers des approches holistiques puissantes pour vous libérer des blocages karmiques, émotionnels et retrouver votre paix intérieure.",
+                whatsappContactBtn: "Contact WhatsApp (+216 660 344)",
+                badgeFormationsSub: "Apprentissage & Élévation",
+                formationsTitle: "Nos Formations en Soins Énergétiques",
+                formationsSubtitle: "Accédez à nos cours vidéo enrichissants pour devenir praticien certifié.",
+                badgeReiki: "Niveau 1 & 2",
+                course1Title: "Initiation au Reiki Usui",
+                course1Desc: "Apprenez à canaliser l'énergie universelle pour l'autoguérison et le soin des autres.",
+                watchBtn: "Voir le cours",
+                badgeChakras: "Énergétique",
+                course2Title: "Harmonisation des Chakras",
+                course2Desc: "Comprendre les 7 centres énergétiques principaux et libérer les blocages émotionnels.",
+                badgeAura: "Pratique",
+                course3Title: "Nettoyage et Protection de l'Aura",
+                course3Desc: "Techniques avancées pour se protéger des énergies négatives et purifier son champ aurique.",
+                badgeSoinsSub: "Guérison & Transformation",
+                soinsTitle: "Toutes nos Séances Thérapeutiques",
+                soinsSubtitle: "Dispencées par Raouia Gharbal, réservez votre séance et contactez-nous directement sur WhatsApp pour confirmer."
+            },
+            ar: {
+                topAnnouncement: "مركز هولستيك • المعالجة راوية غربال | Raouia Gharbal",
+                navTitle: "مركز هولستيك",
+                navSubtitle: "بإشراف راوية غربال",
+                navHome: "الرئيسية",
+                navFormations: "الدورات والتكوين",
+                navSoins: "الجلسات والعلاجات",
+                navBooking: "حجز موعد",
+                navDashboard: "لوحة التحكم",
+                heroBadge: "بإشراف المعالجة راوية غربال • Raouia Gharbal",
+                heroTitle: "أيقظ وعيك وحرر طاقتك الحيوية مع أحدث جلسات العلاج الطاقي",
+                heroSubtitle: "جلسات علاجية واستشارية متخصصة وتكوينات روحية لعمق السلام الداخلي.",
+                heroCtaRdv: "حجز عبر واتساب",
+                heroCtaSoins: "استكشف الجلسات",
+                therapistBadge: "المعالجة والأخصائية",
+                therapistName: "راوية غربال (Raouia Gharbal)",
+                therapistBio: "خريجة وخبرة واسعة في العلاجات الطاقية والكمية. رافقت مئات المستفيدين نحو التحرر من الصدمات والتحرر الكارمي.",
+                whatsappContactBtn: "تواصل عبر واتساب (+216 660 344)",
+                badgeFormationsSub: "التعلم والارتقاء الروحي",
+                formationsTitle: "دوراتنا في العلاج الطاقي",
+                formationsSubtitle: "استمتع بمشاهدة الدروس المصورة لتصبح معالجاً معتمداً.",
+                badgeReiki: "المستوى 1 و 2",
+                course1Title: "مقدمة في طاقة الريكي أوسوي",
+                course1Desc: "تعلم كيفية توجيه الطاقة الكونية للشفاء الذاتي ومساعدة الآخرين.",
+                watchBtn: "مشاهدة الدرس",
+                badgeChakras: "طاقة الشاكرا",
+                course2Title: "موازنة وتنشيط مراكز الطاقة (Chakras)",
+                course2Desc: "فهم مراكز الطاقة السبعة الرئيسية وتحرير الصدمات العاطفية.",
+                badgeAura: "تطبيقي",
+                course3Title: "تنظيف وحماية الهالة الطاقية",
+                course3Desc: "تقنيات متقدمة لحماية الحقل الطاقي من الترددات السلبية وتنقية الهالة.",
+                badgeSoinsSub: "الشفاء والتحول العميق",
+                soinsTitle: "جميع الجلسات العلاجية المتاحة",
+                soinsSubtitle: "بإشراف المعالجة راوية غربال. اختر جلستك واضغط للحجز عبر واتساب."
+            }
+        };
+
+        let currentLang = 'fr';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            const root = document.getElementById('htmlRoot');
+            const btnFr = document.getElementById('btnFr');
+            const btnAr = document.getElementById('btnAr');
+
+            if (lang === 'ar') {
+                root.setAttribute('dir', 'rtl');
+                root.setAttribute('lang', 'ar');
+                root.classList.add('lang-ar');
+                btnAr.className = "px-3 py-1 rounded-md bg-[#C5A059] text-white font-medium text-xs transition shadow-xs";
+                btnFr.className = "px-3 py-1 rounded-md bg-[#2C4A3E] hover:bg-[#385E50] text-xs transition text-[#E8E4DC]";
+            } else {
+                root.setAttribute('dir', 'ltr');
+                root.setAttribute('lang', 'fr');
+                root.classList.remove('lang-ar');
+                btnFr.className = "px-3 py-1 rounded-md bg-[#C5A059] text-white font-medium text-xs transition shadow-xs";
+                btnAr.className = "px-3 py-1 rounded-md bg-[#2C4A3E] hover:bg-[#385E50] text-xs transition text-[#E8E4DC]";
+            }
+
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // WhatsApp Direct Booking
+        function selectServiceForBooking(serviceName) {
+            document.getElementById('waService').value = serviceName;
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleWhatsAppBooking(e) {
+            e.preventDefault();
+            const name = document.getElementById('waName').value;
+            const mode = document.getElementById('waMode').value;
+            const service = document.getElementById('waService').value;
+            const date = document.getElementById('waDate').value;
+            const phone = document.getElementById('waPhone').value;
+            const email = document.getElementById('waEmail').value;
+
+            const text = `Bonjour Raouia, je souhaite réserver la séance "${service}" en mode "${mode}" pour le ${date}. Mon nom est ${name}. Téléphone: ${phone}, Email: ${email}.`;
+            const encodedText = encodeURIComponent(text);
+            const whatsappUrl = `https://wa.me/21626660344?text=${encodedText}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Admin Login Modal (لوقين ليلي)
+        function openAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+            document.getElementById('adminLoginModal').classList.add('flex');
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+            document.getElementById('adminLoginModal').classList.remove('flex');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPasswordInput').value;
+            // Password for Raouia
+            if (pass === 'raouia2026' || pass === 'raouia' || pass === 'admin') {
+                closeAdminLoginModal();
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                document.getElementById('dashboardSection').scrollIntoView({ behavior: 'smooth' });
+                localStorage.setItem('raouia_admin_logged', 'true');
+                document.getElementById('adminPasswordInput').value = '';
+            } else {
+                alert("Mot de passe incorrect. (Mot de passe par défaut: raouia2026)");
+            }
+        }
+
+        function lockAdminDashboard() {
+            document.getElementById('dashboardSection').classList.add('hidden');
+            localStorage.removeItem('raouia_admin_logged');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Videos Management
+        const defaultVideos = [
+            { id: 1, title: "Initiation au Reiki - Module 1", category: "Reiki", duration: "45 min", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { id: 2, title: "Équilibrage du Chakra du Cœur", category: "Chakras", duration: "30 min", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
+        ];
+
+        let videos = JSON.parse(localStorage.getItem('raouia_videos')) || defaultVideos;
+
+        function saveVideos() {
+            localStorage.setItem('raouia_videos', JSON.stringify(videos));
+            renderAdminVideos();
+        }
+
+        function renderAdminVideos() {
+            const tbody = document.getElementById('adminVideosTableBody');
+            document.getElementById('statTotalVideos').textContent = videos.length + 8; // 8 private sessions + videos
+            tbody.innerHTML = '';
+
+            if (videos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-[#5A6E64]">Aucune vidéo de cours enregistrée.</td></tr>`;
+                return;
+            }
+
+            videos.forEach((v) => {
+                tbody.innerHTML += `
+                    <tr class="border-b border-[#E8E4DC] hover:bg-[#FBF9F5] transition">
+                        <td class="px-6 py-4 font-semibold text-[#1B3830]">
+                           <div class="flex items-center gap-3">
+                              ${v.imageUrl ? `<img src="${v.imageUrl}" class="w-10 h-10 rounded-lg object-cover">` : ''}
+                              ${v.title}
+                           </div>
+                        </td>
+                        <td class="px-6 py-4"><span class="bg-[#1B3830]/10 text-[#1B3830] text-xs px-3 py-1 rounded-full font-medium">${v.category}</span></td>
+                        <td class="px-6 py-4 text-xs font-medium">
+                           ${v.duration}<br>
+                           ${v.audioUrl ? `<a href="${v.audioUrl}" target="_blank" class="text-emerald-600 underline">Fichier Audio (MP3)</a>` : ''}
+                        </td>
+                        <td class="px-6 py-4 flex space-x-2 rtl:space-x-reverse">
+                            <a href="${v.url}" target="_blank" class="text-[#1B3830] hover:text-[#C5A059] p-1.5" title="Voir"><i class="fas fa-play"></i></a>
+                            <button onclick="deleteVideo(${v.id})" class="text-rose-500 hover:text-rose-700 p-1.5" title="Supprimer"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function openAddVideoModal() {
+            document.getElementById('videoModal').classList.remove('hidden');
+            document.getElementById('videoModal').classList.add('flex');
+        }
+
+        function closeAddVideoModal() {
+            document.getElementById('videoModal').classList.add('hidden');
+            document.getElementById('videoModal').classList.remove('flex');
+        }
+
+        function handleAddVideo(e) {
+            e.preventDefault();
+            const title = document.getElementById('vidTitle').value;
+            const category = document.getElementById('vidCat').value;
+            const duration = document.getElementById('vidDuration').value;
+            const url = document.getElementById('vidUrl').value;
+            const imageUrl = document.getElementById('vidImg').value;
+            const audioUrl = document.getElementById('vidAudio').value;
+
+            const newVideo = {
+                id: Date.now(),
+                title,
+                category,
+                duration,
+                url,
+                imageUrl,
+                audioUrl
+            };
+
+            videos.push(newVideo);
+            saveVideos();
+            closeAddVideoModal();
+            document.getElementById('addVideoForm').reset();
+            alert("Contenu ajouté avec succès !");
+        }
+
+        function deleteVideo(id) {
+            if (confirm("Voulez-vous vraiment supprimer cette vidéo ?")) {
+                videos = videos.filter(v => v.id !== id);
+                saveVideos();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAdminVideos();
+            if (localStorage.getItem('raouia_admin_logged') === 'true') {
+                document.getElementById('dashboardSection').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
