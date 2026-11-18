@@ -3,851 +3,844 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centre Holistique & Soins Énergétiques | Raouia Gharbal</title>
+    <title>Centre Holistique | Raouia Gharbal - Soins & Formations</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <style>
+        :root {
+            --primary: #1B3830;
+            --accent: #C5A059;
+            --bg-warm: #FBF9F5;
+            --text-main: #2C3E35;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', 'Tajawal', sans-serif;
-            background-color: #FBF9F5;
-            color: #2C3E35;
-            transition: all 0.3s ease;
+            background-color: var(--bg-warm);
+            color: var(--text-main);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
         }
-        .font-luxury {
-            font-family: 'Playfair Display', 'Tajawal', serif;
+
+        .font-luxury { font-family: 'Playfair Display', 'Tajawal', serif; }
+        .lang-ar { font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif; }
+
+        /* Modern Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .lang-ar {
-            font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
-        }
+
+        /* Hero Background with Animation */
         .hero-gradient {
-            background: linear-gradient(135deg, rgba(27, 56, 48, 0.92) 0%, rgba(44, 78, 67, 0.88) 50%, rgba(74, 107, 93, 0.85) 100%), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1920&q=80') center/cover;
+            background: linear-gradient(135deg, rgba(27, 56, 48, 0.92) 0%, rgba(44, 78, 67, 0.85) 50%, rgba(197, 160, 89, 0.2) 100%), url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1920&q=80') center/cover;
+            animation: pulse-bg 20s infinite alternate;
         }
+
+        @keyframes pulse-bg {
+            0% { background-position: center; }
+            100% { background-position: top right; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-warm); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        /* Course Card Protection */
+        .locked-content {
+            filter: blur(5px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Floating WhatsApp */
+        .float-wa {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        /* Modal Animation */
+        .modal-enter { animation: zoomIn 0.3s forwards; }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Top Announcement & Language Switcher Bar -->
-    <header class="bg-[#1B3830] text-[#E8E4DC] text-xs py-2.5 px-6 shadow-xs">
+    <!-- Top Bar -->
+    <header class="bg-[#1B3830] text-[#E8E4DC] text-xs py-2.5 px-6 shadow-md z-[60]">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3 rtl:space-x-reverse font-light">
-                <span id="topAnnouncement"><i class="fas fa-spa mr-1 text-[#C5A059]"></i> Centre Holistique • المعالجة راوية غربال | Raouia Gharbal</span>
+            <div class="flex items-center space-x-3 rtl:space-x-reverse font-light animate__animated animate__fadeInLeft">
+                <span id="topAnnouncement"><i class="fas fa-spa mr-1 text-[#C5A059]"></i> Centre Holistique • Raouia Gharbal | راوية غربال</span>
             </div>
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <button onclick="switchLanguage('fr')" id="btnFr" class="px-3 py-1 rounded-md bg-[#C5A059] text-white font-medium text-xs transition shadow-xs">Français</button>
-                <button onclick="switchLanguage('ar')" id="btnAr" class="px-3 py-1 rounded-md bg-[#2C4A3E] hover:bg-[#385E50] text-xs transition text-[#E8E4DC]">العربية</button>
+            <div class="flex items-center space-x-4 rtl:space-x-reverse animate__animated animate__fadeInRight">
+                <div id="userStatus" class="hidden sm:flex items-center space-x-2 text-[#C5A059] font-semibold">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="loggedUserName"></span>
+                    <button onclick="logout()" class="text-[#E8E4DC] hover:text-white underline ml-2">Déconnexion</button>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchLanguage('fr')" id="btnFr" class="px-3 py-1 rounded-md bg-[#C5A059] text-white font-medium transition hover:scale-105">Français</button>
+                    <button onclick="switchLanguage('ar')" id="btnAr" class="px-3 py-1 rounded-md bg-[#2C4A3E] text-[#E8E4DC] transition hover:scale-105">العربية</button>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Navigation Bar -->
-    <nav class="bg-[#FBF9F5]/90 backdrop-blur-md sticky top-0 z-50 border-b border-[#E8E4DC]/60 shadow-xs">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="logo.png" alt="Logo" class="w-11 h-11 rounded-full border border-[#C5A059]/30">
+    <!-- Navigation -->
+    <nav class="bg-[#FBF9F5]/95 backdrop-blur-md sticky top-0 z-50 border-b border-[#E8E4DC]/60 shadow-sm transition-all duration-300 h-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3 rtl:space-x-reverse group cursor-pointer" onclick="window.scrollTo({top: 0, behavior:'smooth'})">
+                    <img src="logo.png" alt="Logo" class="w-12 h-12 rounded-full border-2 border-[#C5A059]/30 group-hover:rotate-12 transition">
                     <div>
                         <span id="navTitle" class="text-xl font-bold font-luxury text-[#1B3830] tracking-wide block leading-tight">Centre Holistique</span>
-                        <span id="navSubtitle" class="text-[11px] text-[#5A6E64] tracking-widest uppercase font-medium">Par Raouia Gharbal</span>
+                        <span id="navSubtitle" class="text-[10px] text-[#5A6E64] tracking-widest uppercase font-bold">Divine Energy & Healing</span>
                     </div>
                 </div>
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8 rtl:space-x-reverse text-sm font-medium text-[#3A4F44]">
-                    <a href="#home" class="hover:text-[#C5A059] transition" data-i18n="navHome">Accueil</a>
-                    <a href="#formations" class="hover:text-[#C5A059] transition" data-i18n="navFormations">Formations & Cours</a>
-                    <a href="#soins" class="hover:text-[#C5A059] transition" data-i18n="navSoins">Séances & Soins</a>
+
+                <div class="hidden lg:flex items-center space-x-8 rtl:space-x-reverse text-sm font-semibold text-[#3A4F44]">
+                    <a href="#home" class="hover:text-[#C5A059] transition relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#C5A059] hover:after:w-full after:transition-all" data-i18n="navHome">Accueil</a>
+                    <a href="#formations" class="hover:text-[#C5A059] transition" data-i18n="navFormations">Formations</a>
+                    <a href="#soins" class="hover:text-[#C5A059] transition" data-i18n="navSoins">Séances</a>
                     <a href="#booking" class="hover:text-[#C5A059] transition" data-i18n="navBooking">Prendre RDV</a>
-                    <a href="javascript:void(0)" onclick="openAdminLoginModal()" class="bg-[#1B3830] text-white px-5 py-2.5 rounded-full hover:bg-[#2C4A3E] transition shadow-md font-semibold flex items-center space-x-2 rtl:space-x-reverse border border-[#C5A059]/30">
-                        <i class="fas fa-lock text-[#C5A059]"></i>
+
+                    <div id="authButtons" class="flex items-center space-x-4 rtl:space-x-reverse">
+                        <button onclick="openModal('loginModal')" class="text-[#1B3830] border border-[#1B3830] px-5 py-2 rounded-full hover:bg-[#1B3830] hover:text-white transition" data-i18n="btnLogin">Connexion</button>
+                        <button onclick="openModal('signupModal')" class="bg-[#1B3830] text-white px-6 py-2.5 rounded-full shadow-md hover:bg-[#2C4A3E] transition" data-i18n="btnSignup">S'inscrire</button>
+                    </div>
+
+                    <button id="adminBtn" onclick="checkAdminAndOpen()" class="hidden bg-[#C5A059] text-[#1B3830] px-4 py-2 rounded-full font-bold shadow-md hover:scale-105 transition flex items-center space-x-2">
+                        <i class="fas fa-lock"></i>
                         <span data-i18n="navDashboard">Dashboard Admin</span>
-                    </a>
-                </div>
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button onclick="toggleMobileMenu()" class="text-[#1B3830] focus:outline-none p-2">
-                        <i class="fas fa-bars text-2xl"></i>
                     </button>
+                </div>
+
+                <div class="lg:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-[#1B3830] p-2"><i class="fas fa-bars text-2xl"></i></button>
                 </div>
             </div>
         </div>
-        <!-- Mobile dropdown menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-[#FBF9F5] border-b border-[#E8E4DC] px-6 py-4 space-y-3 shadow-lg">
-            <a href="#home" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navHome">Accueil</a>
-            <a href="#formations" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navFormations">Formations & Cours</a>
-            <a href="#soins" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navSoins">Séances & Soins</a>
-            <a href="#booking" class="block py-2 text-[#3A4F44] hover:text-[#C5A059] font-medium" data-i18n="navBooking">Prendre RDV</a>
-            <a href="javascript:void(0)" onclick="openAdminLoginModal()" class="block py-3 bg-[#1B3830] text-white text-center rounded-xl font-semibold shadow-sm" data-i18n="navDashboard">Dashboard Admin</a>
-        </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-white fixed inset-0 z-[100] p-8 space-y-6">
+        <div class="flex justify-end"><button onclick="toggleMobileMenu()"><i class="fas fa-times text-3xl"></i></button></div>
+        <a href="#home" class="block text-2xl font-bold text-[#1B3830]" onclick="toggleMobileMenu()">Accueil</a>
+        <a href="#formations" class="block text-2xl font-bold text-[#1B3830]" onclick="toggleMobileMenu()">Formations</a>
+        <a href="#soins" class="block text-2xl font-bold text-[#1B3830]" onclick="toggleMobileMenu()">Séances</a>
+        <a href="#booking" class="block text-2xl font-bold text-[#1B3830]" onclick="toggleMobileMenu()">Prendre RDV</a>
+        <hr>
+        <div id="mobileAuth" class="space-y-4">
+            <button onclick="openModal('loginModal'); toggleMobileMenu()" class="w-full py-4 rounded-2xl border-2 border-[#1B3830] font-bold">Connexion</button>
+            <button onclick="openModal('signupModal'); toggleMobileMenu()" class="w-full py-4 rounded-2xl bg-[#1B3830] text-white font-bold">S'inscrire</button>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main class="flex-grow">
 
-        <!-- Hero Section -->
-        <section id="home" class="hero-gradient text-white py-28 px-6 lg:px-8 relative overflow-hidden">
-            <div class="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-                <span class="inline-flex items-center space-x-2 rtl:space-x-reverse px-5 py-2 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold tracking-wider uppercase text-[#F3EFEA] border border-white/20 shadow-sm">
-                    <i class="fas fa-sparkles text-[#C5A059]"></i>
+        <!-- Hero -->
+        <section id="home" class="hero-gradient text-white py-32 px-6 lg:px-8 relative overflow-hidden flex items-center justify-center min-h-[80vh]">
+            <div class="max-w-4xl mx-auto text-center space-y-10 z-10 animate__animated animate__fadeInUp">
+                <span class="inline-flex items-center space-x-2 px-6 py-2.5 rounded-full bg-white/10 backdrop-blur-md text-xs font-bold tracking-widest uppercase text-[#F3EFEA] border border-white/20">
+                    <i class="fas fa-sparkles text-[#C5A059] animate-pulse"></i>
                     <span data-i18n="heroBadge">Par Raouia Gharbal • المعالجة راوية غربال</span>
                 </span>
-                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight font-luxury leading-tight" data-i18n="heroTitle">
-                    Éveillez Votre Conscience & Libérez Votre Énergie Vitale
+                <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight font-luxury leading-tight" data-i18n="heroTitle">
+                    Éveil & Transformation Spirituelle
                 </h1>
-                <p class="text-lg sm:text-xl text-[#E8E4DC] max-w-2xl mx-auto font-light leading-relaxed" data-i18n="heroSubtitle">
-                    Séances de soins énergétiques personnalisées, thérapies quantiques et formations holistiques pour un alignement profond.
+                <p class="text-xl sm:text-2xl text-[#E8E4DC] max-w-2xl mx-auto font-light leading-relaxed opacity-90" data-i18n="heroSubtitle">
+                    Reconnectez-vous à votre essence à travers nos soins énergétiques et formations certifiantes.
                 </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-                    <a href="#booking" class="bg-[#C5A059] hover:bg-[#b08d47] text-[#1B3830] font-bold px-8 py-4 rounded-full shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 rtl:space-x-reverse">
-                        <i class="fab fa-whatsapp text-lg"></i>
-                        <span data-i18n="heroCtaRdv">Réserver via WhatsApp</span>
+                <div class="flex flex-col sm:flex-row justify-center gap-6 pt-6">
+                    <a href="#formations" class="bg-[#C5A059] hover:bg-[#b08d47] text-[#1B3830] font-bold px-10 py-5 rounded-full shadow-2xl transition transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center space-x-3">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span data-i18n="heroCtaCourses">Nos Formations</span>
                     </a>
-                    <a href="#soins" class="bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md text-white font-semibold px-8 py-4 rounded-full transition flex items-center justify-center space-x-2 rtl:space-x-reverse">
-                        <i class="fas fa-hands-holding-child"></i>
-                        <span data-i18n="heroCtaSoins">Découvrir les Séances</span>
+                    <a href="https://wa.me/21626660344" target="_blank" class="bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-lg text-white font-bold px-10 py-5 rounded-full transition flex items-center justify-center space-x-3">
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-i18n="heroCtaRdv">Réservation Directe</span>
                     </a>
                 </div>
             </div>
-            <div class="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-[#C5A059]/10 blur-3xl pointer-events-none"></div>
-            <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none"></div>
+            <!-- Spiritual Circles -->
+            <div class="absolute w-[600px] h-[600px] border border-white/5 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow pointer-events-none"></div>
+            <div class="absolute w-[800px] h-[800px] border border-white/5 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-reverse-slow pointer-events-none"></div>
         </section>
 
-        <!-- About Therapist Section -->
-        <section class="py-20 px-6 lg:px-8 max-w-5xl mx-auto">
-            <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-[#E8E4DC] flex flex-col md:flex-row items-center gap-10">
-                <img src="raouia.jpg" alt="Raouia Gharbal" class="w-40 h-40 rounded-full object-cover border-4 border-[#C5A059]/30">
-                <div class="space-y-4 text-center md:text-start rtl:md:text-right">
-                    <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]" data-i18n="therapistBadge">Votre Praticienne & Thérapeute</span>
-                    <h2 class="text-3xl font-bold font-luxury text-[#1B3830]" data-i18n="therapistName">Raouia Gharbal (راوية غربال)</h2>
-                    <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="therapistBio">
-                        Experte en thérapies énergétiques et quantiques, Raouia vous accompagne à travers des approches holistiques puissantes pour vous libérer des blocages karmiques, émotionnels et retrouver votre paix intérieure.
+        <!-- About Raouia -->
+        <section class="py-24 px-6 lg:px-8 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-16">
+                <div class="relative group animate__animated animate__fadeInLeft">
+                    <div class="absolute -inset-4 bg-[#C5A059]/20 rounded-[40px] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+                    <img src="raouia.jpg" alt="Raouia Gharbal" class="relative rounded-[40px] w-full h-[500px] object-cover shadow-2xl border-2 border-white grayscale-[30%] hover:grayscale-0 transition duration-700">
+                    <div class="absolute bottom-6 right-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-[#E8E4DC] max-w-[200px]">
+                        <p class="text-xs font-bold text-[#C5A059] uppercase mb-1">Expertise</p>
+                        <p class="text-sm font-semibold text-[#1B3830]">Certifiée en Soins Quantiques & Reiki</p>
+                    </div>
+                </div>
+                <div class="space-y-8 animate__animated animate__fadeInRight">
+                    <div class="space-y-2">
+                        <span class="text-xs font-black uppercase tracking-[4px] text-[#C5A059]" data-i18n="therapistBadge">Votre Guide Spirituelle</span>
+                        <h2 class="text-4xl sm:text-5xl font-bold font-luxury text-[#1B3830]" data-i18n="therapistName">Raouia Gharbal</h2>
+                    </div>
+                    <p class="text-lg text-[#5A6E64] leading-relaxed font-light" data-i18n="therapistBio">
+                        Ma mission est de vous accompagner dans votre cheminement vers la lumière. À travers mes séances et mes formations, j'utilise les outils de la thérapie quantique et du Reiki pour libérer vos mémoires, purifier votre énergie et révéler votre potentiel divin.
                     </p>
-                    <div class="pt-2 flex justify-center md:justify-start rtl:md:justify-end gap-3">
-                        <a href="https://wa.me/216660344" target="_blank" class="inline-flex items-center space-x-2 rtl:space-x-reverse bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-full text-xs font-semibold shadow-sm transition">
-                            <i class="fab fa-whatsapp"></i>
-                            <span data-i18n="whatsappContactBtn">Contact WhatsApp (+216 660 344)</span>
-                        </a>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-[#E8E4DC] hover:border-[#C5A059] transition">
+                            <i class="fas fa-heart-circle-check text-[#C5A059] text-xl mb-3"></i>
+                            <h4 class="font-bold text-[#1B3830] text-sm">Approche Bienveillante</h4>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-[#E8E4DC] hover:border-[#C5A059] transition">
+                            <i class="fas fa-star text-[#C5A059] text-xl mb-3"></i>
+                            <h4 class="font-bold text-[#1B3830] text-sm">Résultats Profonds</h4>
+                        </div>
                     </div>
+                    <a href="https://wa.me/21626660344" class="inline-flex items-center space-x-3 bg-[#1B3830] text-white px-8 py-4 rounded-full shadow-lg hover:bg-black transition group">
+                        <span data-i18n="whatsappContactBtn">Parler avec Raouia</span>
+                        <i class="fab fa-whatsapp text-xl group-hover:rotate-12 transition"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Formations & Courses Section -->
-        <section id="formations" class="py-20 px-6 lg:px-8 max-w-7xl mx-auto bg-[#F3EFEA]/50 rounded-3xl my-8 border border-[#E8E4DC]/60">
-            <div class="text-center space-y-3 mb-16">
-                <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]" data-i18n="badgeFormationsSub">Apprentissage & Élévation</span>
-                <h2 class="text-3xl sm:text-4xl font-bold font-luxury text-[#1B3830]" data-i18n="formationsTitle">Nos Formations en Soins Énergétiques</h2>
-                <p class="text-[#5A6E64] max-w-xl mx-auto font-light text-sm sm:text-base" data-i18n="formationsSubtitle">Accédez à nos cours vidéo enrichissants pour devenir praticien certifié.</p>
-            </div>
-
-            <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Course 1 -->
-                <div class="bg-white rounded-3xl shadow-sm border border-[#E8E4DC] overflow-hidden hover:shadow-xl transition duration-300 group flex flex-col">
-                    <div class="h-48 bg-gradient-to-br from-[#1B3830] to-[#2C4A3E] flex items-center justify-center text-[#C5A059] text-5xl relative overflow-hidden">
-                        <i class="fas fa-hand-holding-heart transform group-hover:scale-110 transition duration-500"></i>
-                    </div>
-                    <div class="p-8 space-y-4 flex-grow flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-[#1B3830] bg-[#E8E4DC]/60 px-3 py-1 rounded-full" data-i18n="badgeReiki">Niveau 1 & 2</span>
-                            <h3 class="text-xl font-bold font-luxury text-[#1B3830]" data-i18n="course1Title">Initiation au Reiki Usui</h3>
-                            <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="course1Desc">Apprenez à canaliser l'énergie universelle pour l'autoguérison et le soin des autres.</p>
-                        </div>
-                        <div class="flex justify-between items-center pt-4 border-t border-[#E8E4DC]/60">
-                            <span class="text-[#1B3830] font-bold text-sm"><i class="fas fa-video mr-1.5 text-[#C5A059]"></i> 12 Vidéos</span>
-                            <button onclick="alert('Réservé aux membres inscrits.')" class="bg-[#1B3830] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[#C5A059] hover:text-[#1B3830] transition" data-i18n="watchBtn">Voir le cours</button>
-                        </div>
-                    </div>
+        <!-- Formations (Catalog) -->
+        <section id="formations" class="py-24 px-6 lg:px-8 bg-[#F3EFEA]/40">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center space-y-4 mb-20">
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#C5A059]" data-i18n="badgeFormationsSub">Élévation de Conscience</span>
+                    <h2 class="text-4xl sm:text-5xl font-bold font-luxury text-[#1B3830]" data-i18n="formationsTitle">Formations Holistiques</h2>
+                    <p class="text-[#5A6E64] max-w-xl mx-auto" data-i18n="formationsSubtitle">Apprenez à votre rythme et accédez à des contenus exclusifs après inscription.</p>
                 </div>
 
-                <!-- Course 2 -->
-                <div class="bg-white rounded-3xl shadow-sm border border-[#E8E4DC] overflow-hidden hover:shadow-xl transition duration-300 group flex flex-col">
-                    <div class="h-48 bg-gradient-to-br from-[#2C4A3E] to-[#4A6B5D] flex items-center justify-center text-[#C5A059] text-5xl relative overflow-hidden">
-                        <i class="fas fa-circle-nodes transform group-hover:scale-110 transition duration-500"></i>
-                    </div>
-                    <div class="p-8 space-y-4 flex-grow flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-[#1B3830] bg-[#E8E4DC]/60 px-3 py-1 rounded-full" data-i18n="badgeChakras">Énergétique</span>
-                            <h3 class="text-xl font-bold font-luxury text-[#1B3830]" data-i18n="course2Title">Harmonisation des Chakras</h3>
-                            <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="course2Desc">Comprendre les 7 centres énergétiques principaux et libérer les blocages émotionnels.</p>
-                        </div>
-                        <div class="flex justify-between items-center pt-4 border-t border-[#E8E4DC]/60">
-                            <span class="text-[#1B3830] font-bold text-sm"><i class="fas fa-video mr-1.5 text-[#C5A059]"></i> 8 Vidéos</span>
-                            <button onclick="alert('Réservé aux membres inscrits.')" class="bg-[#1B3830] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[#C5A059] hover:text-[#1B3830] transition" data-i18n="watchBtn">Voir le cours</button>
-                        </div>
-                    </div>
+                <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Dynamic Loading -->
                 </div>
 
-                <!-- Course 3 -->
-                <div class="bg-white rounded-3xl shadow-sm border border-[#E8E4DC] overflow-hidden hover:shadow-xl transition duration-300 group flex flex-col">
-                    <div class="h-48 bg-gradient-to-br from-[#385E50] to-[#5A7E70] flex items-center justify-center text-[#C5A059] text-5xl relative overflow-hidden">
-                        <i class="fas fa-sun transform group-hover:scale-110 transition duration-500"></i>
-                    </div>
-                    <div class="p-8 space-y-4 flex-grow flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-[#1B3830] bg-[#E8E4DC]/60 px-3 py-1 rounded-full" data-i18n="badgeAura">Pratique</span>
-                            <h3 class="text-xl font-bold font-luxury text-[#1B3830]" data-i18n="course3Title">Nettoyage et Protection de l'Aura</h3>
-                            <p class="text-[#5A6E64] text-sm leading-relaxed" data-i18n="course3Desc">Techniques avancées pour se protéger des énergies négatives et purifier son champ aurique.</p>
-                        </div>
-                        <div class="flex justify-between items-center pt-4 border-t border-[#E8E4DC]/60">
-                            <span class="text-[#1B3830] font-bold text-sm"><i class="fas fa-video mr-1.5 text-[#C5A059]"></i> 10 Vidéos</span>
-                            <button onclick="alert('Réservé aux membres inscrits.')" class="bg-[#1B3830] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[#C5A059] hover:text-[#1B3830] transition" data-i18n="watchBtn">Voir le cours</button>
-                        </div>
-                    </div>
+                <div id="noCourses" class="hidden text-center py-20 bg-white rounded-3xl border-2 border-dashed border-[#E8E4DC]">
+                    <i class="fas fa-folder-open text-4xl text-[#E8E4DC] mb-4"></i>
+                    <p class="text-[#5A6E64]">Aucune formation disponible pour le moment.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Soins & Séances Section -->
+        <!-- Soins (Sessions) -->
         <section id="soins" class="py-24 px-6 lg:px-8 max-w-7xl mx-auto">
-            <div class="text-center space-y-3 mb-16">
-                <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]" data-i18n="badgeSoinsSub">Guérison & Transformation</span>
-                <h2 class="text-3xl sm:text-4xl font-bold font-luxury text-[#1B3830]" data-i18n="soinsTitle">Toutes nos Séances Thérapeutiques</h2>
-                <p class="text-[#5A6E64] max-w-xl mx-auto font-light text-sm sm:text-base" data-i18n="soinsSubtitle">Dispencées par Raouia Gharbal, réservez votre séance et contactez-nous directement sur WhatsApp pour confirmer.</p>
+            <div class="text-center space-y-4 mb-20">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#C5A059]" data-i18n="badgeSoinsSub">Sérénité & Équilibre</span>
+                <h2 class="text-4xl sm:text-5xl font-bold font-luxury text-[#1B3830]" data-i18n="soinsTitle">Séances de Soins</h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 1: Akashic -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة سجلات الاكاشا</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Accès à la bibliothèque de l'âme pour recevoir des réponses et des guidances profondes.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة سجلات الاكاشا')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Session Cards (Fixed List) -->
+                <script>
+                    const sessionData = [
+                        { id: 'akasha', titleFr: 'Annales Akashiques', titleAr: 'سجلات الاكاشا', icon: 'fa-book-open' },
+                        { id: 'reiki', titleFr: 'Reiki Usui', titleAr: 'جلسة ريكي', icon: 'fa-hand-holding-heart' },
+                        { id: 'hypnose', titleFr: 'Hypnose Quantique', titleAr: 'تنويم كمي', icon: 'fa-brain' },
+                        { id: 'theta', titleFr: 'ThetaHealing', titleAr: 'ثيتا هيلينغ', icon: 'fa-atom' },
+                        { id: 'tarot', titleFr: 'Tarot Intuitif', titleAr: 'جلسة تاروت', icon: 'fa-cards' },
+                        { id: 'spirituel', titleFr: 'Conseil Spirituel', titleAr: 'استشارة روحية', icon: 'fa-om' },
+                        { id: 'psy', titleFr: 'Soutien Psychologique', titleAr: 'جلسة نفسية', icon: 'fa-heart-pulse' },
+                        { id: 'constellation', titleFr: 'Constellation Familiale', titleAr: 'الوقوف العائلي', icon: 'fa-users-viewfinder' }
+                    ];
+                </script>
 
-                <!-- Card 2: Reiki -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-hand-holding-heart"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة ريكي</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Soin énergétique par imposition des mains pour réharmoniser le corps et l'esprit.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة ريكي')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
-                </div>
-
-                <!-- Card 3: Quantum Hypnosis -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة تنويم كمي</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Hypnose quantique pour accéder aux dimensions intérieures et reprogrammer le subconscient.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة تنويم كمي')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
-                </div>
-
-                <!-- Card 4: ThetaHealing -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-atom"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة ثيتا هيلينغ</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Technique de guérison énergétique par les ondes Theta pour libérer les croyances limitantes.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة ثيتا هيلينغ')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
-                </div>
-
-                <!-- Card 5: Tarot -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-cards-blank"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة تاروت</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Guidance intuitive à travers les arcanes du tarot pour éclairer vos choix de vie.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة تاروت')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
-                </div>
-
-                <!-- Card 6: Spiritual Counseling -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-om"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة استشارية روحية</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Accompagnement personnalisé pour votre cheminement spirituel et élévation de conscience.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة استشارية روحية')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
-                </div>
-
-                <!-- Card 7: Psychological Session -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-heart-pulse"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة نفسية</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Écoute bienveillante et soutien psychologique pour surmonter les épreuves émotionnelles.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة نفسية')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
-                </div>
-
-                <!-- Card 8: Family Constellation -->
-                <div class="bg-white p-6 rounded-3xl shadow-xs border border-[#E8E4DC] hover:shadow-md transition flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-[#1B3830] text-[#C5A059] flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-users-viewfinder"></i>
-                        </div>
-                        <h3 class="text-lg font-bold font-luxury text-[#1B3830]">جلسة الوقوف العائلي</h3>
-                        <p class="text-[#5A6E64] text-xs leading-relaxed">Libération des enchevêtrements familiaux inconscients et réconciliation transgénérationnelle.</p>
-                    </div>
-                    <div class="pt-6">
-                        <button onclick="selectServiceForBooking('جلسة الوقوف العائلي')" class="w-full bg-[#1B3830] hover:bg-[#C5A059] text-white hover:text-[#1B3830] font-semibold py-2.5 rounded-xl text-xs transition">Réserver</button>
-                    </div>
+                <div id="sessionsGrid" class="contents">
+                    <!-- Loaded via JS below -->
                 </div>
             </div>
         </section>
 
-        <!-- Booking & WhatsApp Section -->
-        <section id="booking" class="py-24 px-6 lg:px-8 max-w-4xl mx-auto">
-            <div class="bg-white rounded-3xl shadow-xl border border-[#E8E4DC] p-8 sm:p-14 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-48 h-48 bg-[#C5A059]/10 rounded-bl-full pointer-events-none"></div>
-                <div class="text-center space-y-3 mb-10 relative z-10">
-                    <span class="text-xs font-semibold uppercase tracking-widest text-[#C5A059]">Paiement & Contact</span>
-                    <h2 class="text-3xl font-bold font-luxury text-[#1B3830]">Réservez & Payez via WhatsApp</h2>
-                    <p class="text-[#5A6E64] text-sm">Pour valider votre rendez-vous avec Raouia Gharbal, contactez-nous directement sur WhatsApp au <strong class="text-[#1B3830]">+216 660 344</strong>.</p>
+        <!-- Booking Section -->
+        <section id="booking" class="py-24 px-6 lg:px-8 bg-[#1B3830] text-white">
+            <div class="max-w-4xl mx-auto bg-white/5 backdrop-blur-xl rounded-[40px] p-8 sm:p-16 border border-white/10 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-24 -left-24 w-64 h-64 bg-[#C5A059]/20 rounded-full blur-[80px]"></div>
+
+                <div class="text-center space-y-4 mb-12 relative z-10">
+                    <h2 class="text-4xl font-bold font-luxury" data-i18n="bookingTitle">Prendre Rendez-vous</h2>
+                    <p class="text-[#E8E4DC] font-light" data-i18n="bookingSubtitle">Choisissez votre séance et le mode (Ligne ou Cabinet) et confirmez sur WhatsApp.</p>
                 </div>
-                <form id="whatsappBookingForm" onsubmit="handleWhatsAppBooking(event)" class="space-y-6 relative z-10">
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Nom complet</label>
-                            <input type="text" id="waName" required class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+
+                <form id="waBookingForm" onsubmit="handleWABooking(event)" class="space-y-8 relative z-10">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black uppercase tracking-widest text-[#C5A059]">Nom Complet</label>
+                            <input type="text" id="bookName" required class="w-full bg-white/5 border-b border-white/30 py-3 px-1 focus:border-[#C5A059] transition outline-none text-lg">
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Mode de Séance</label>
-                            <select id="waMode" class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
-                                <option value="En Ligne">En Ligne (Online)</option>
-                                <option value="Au Cabinet (Sfax/Tunis)">Au Cabinet (Sfax / Tunis)</option>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black uppercase tracking-widest text-[#C5A059]">Mode de Séance</label>
+                            <select id="bookMode" class="w-full bg-transparent border-b border-white/30 py-3 px-1 focus:border-[#C5A059] transition outline-none text-lg">
+                                <option class="text-black" value="Online (Ligne)">En Ligne (Online)</option>
+                                <option class="text-black" value="Au Cabinet (Sfax/Tunis)">Au Cabinet (Sfax / Tunis)</option>
                             </select>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Sélectionnez la Séance</label>
-                            <select id="waService" class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
-                                <option value="جلسة سجلات الاكاشا">جلسة سجلات الاكاشا (Akashic Records)</option>
-                                <option value="جلسة ريكي">جلسة ريكي (Reiki)</option>
-                                <option value="جلسة تنويم كمي">جلسة تنويم كمي (Quantum Hypnosis)</option>
-                                <option value="جلسة ثيتا هيلينغ">جلسة ثيتا هيلينغ (ThetaHealing)</option>
-                                <option value="جلسة تاروت">جلسة تاروت (Tarot)</option>
-                                <option value="جلسة استشارية روحية">جلسة استشارية روحية (Consultation Spirituelle)</option>
-                                <option value="جلسة نفسية">جلسة نفسية (Séance Psychologique)</option>
-                                <option value="جلسة الوقوف العائلي">جلسة الوقوف العائلي (Constellation Familiale)</option>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black uppercase tracking-widest text-[#C5A059]">Service souhaité</label>
+                            <select id="bookService" class="w-full bg-transparent border-b border-white/30 py-3 px-1 focus:border-[#C5A059] transition outline-none text-lg">
+                                <!-- Options populated by JS -->
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Date souhaitée</label>
-                            <input type="date" id="waDate" required class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black uppercase tracking-widest text-[#C5A059]">Date Préférée</label>
+                            <input type="date" id="bookDate" required class="w-full bg-transparent border-b border-white/30 py-3 px-1 focus:border-[#C5A059] transition outline-none text-lg invert">
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Téléphone / WhatsApp</label>
-                            <input type="text" id="waPhone" required class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="+216 ...">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Email (Optionnel)</label>
-                            <input type="email" id="waEmail" class="w-full px-4.5 py-3.5 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="exemple@gmail.com">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl shadow-md transition text-base tracking-wide flex items-center justify-center space-x-2 rtl:space-x-reverse">
+                    <button type="submit" class="w-full bg-[#C5A059] hover:bg-[#b08d47] text-[#1B3830] font-black py-6 rounded-3xl shadow-2xl transition transform hover:scale-[1.02] flex items-center justify-center space-x-3 text-xl">
                         <i class="fab fa-whatsapp text-2xl"></i>
-                        <span>Envoyer la demande sur WhatsApp (+216 660 344)</span>
+                        <span>Confirmer sur WhatsApp</span>
                     </button>
                 </form>
-            </div>
-        </section>
-
-        <!-- DASHBOARD ADMIN SECTION (Protected by Login) -->
-        <section id="dashboardSection" class="py-24 px-6 lg:px-8 max-w-7xl mx-auto hidden">
-            <div class="bg-white rounded-3xl shadow-xl border border-[#E8E4DC] p-8 sm:p-12">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6 border-b border-[#E8E4DC] pb-8">
-                    <div>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[#C5A059] bg-[#1B3830]/5 px-3 py-1 rounded-full">Espace Privé Raouia Gharbal</span>
-                        <h2 class="text-2xl sm:text-3xl font-bold font-luxury text-[#1B3830] mt-2">Tableau de Bord & Gestion des Séances</h2>
-                        <p class="text-[#5A6E64] text-sm mt-1">Gérez vos sessions privées et le catalogue des vidéos de formation.</p>
-                    </div>
-                    <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <button onclick="openAddVideoModal()" class="bg-[#C5A059] hover:bg-[#b08d47] text-[#1B3830] px-5 py-3 rounded-2xl font-bold shadow-md transition flex items-center space-x-2 rtl:space-x-reverse text-sm">
-                            <i class="fas fa-plus-circle"></i>
-                            <span>Ajouter Vidéo</span>
-                        </button>
-                        <button onclick="lockAdminDashboard()" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-4 py-3 rounded-2xl font-semibold transition text-sm">
-                            <i class="fas fa-lock"></i> Déconnexion
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Stats Overview Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                    <div class="bg-[#FBF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex justify-between items-center">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-wider text-[#5A6E64]">Total Séances & Cours</p>
-                            <h3 id="statTotalVideos" class="text-3xl font-bold font-luxury text-[#1B3830] mt-1">8</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-xl flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-spa"></i>
-                        </div>
-                    </div>
-                    <div class="bg-[#FBF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex justify-between items-center">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-wider text-[#5A6E64]">Séances Privées Actives</p>
-                            <h3 class="text-3xl font-bold font-luxury text-[#1B3830] mt-1">8 Séances</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-xl flex items-center justify-center text-xl shadow-xs">
-                            <i class="fas fa-list-check"></i>
-                        </div>
-                    </div>
-                    <div class="bg-[#FBF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex justify-between items-center">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-wider text-[#5A6E64]">Contact WhatsApp</p>
-                            <h3 class="text-lg font-bold font-luxury text-[#1B3830] mt-1">+216 660 344</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-xl flex items-center justify-center text-xl shadow-xs">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Private Sessions Admin Table (Hidden from public) -->
-                <div class="bg-white rounded-2xl border border-[#E8E4DC] overflow-hidden mb-10 shadow-xs">
-                    <div class="px-6 py-4 bg-[#FBF9F5] border-b border-[#E8E4DC] flex justify-between items-center">
-                        <h3 class="font-bold text-[#1B3830] font-luxury text-lg">Liste Privée des Séances (Géré par Raouia)</h3>
-                        <span class="text-xs bg-[#1B3830] text-[#C5A059] px-3 py-1 rounded-full font-medium">Privé • Admin Only</span>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-[#3A4F44]">
-                            <thead class="bg-[#F3EFEA] uppercase text-[11px] font-semibold text-[#5A6E64] border-b border-[#E8E4DC]">
-                                <tr>
-                                    <th class="px-6 py-3.5">Nom de la Séance</th>
-                                    <th class="px-6 py-3.5">Catégorie / Type</th>
-                                    <th class="px-6 py-3.5">Disponibilité</th>
-                                    <th class="px-6 py-3.5">Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody id="privateSessionsTableBody">
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة سجلات الاكاشا</td><td class="px-6 py-4">Spirituel</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة ريكي</td><td class="px-6 py-4">Énergétique</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة تنويم كمي</td><td class="px-6 py-4">Quantique</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة ثيتا هيلينغ</td><td class="px-6 py-4">Guérison</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة تاروت</td><td class="px-6 py-4">Guidance</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة استشارية روحية</td><td class="px-6 py-4">Spiritualité</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة نفسية</td><td class="px-6 py-4">Psychologie</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                                <tr><td class="px-6 py-4 font-semibold text-[#1B3830]">جلسة الوقوف العائلي</td><td class="px-6 py-4">Transgénérationnel</td><td class="px-6 py-4">Sur Rendez-vous</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">Actif</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Videos List Table -->
-                <div class="bg-white rounded-2xl border border-[#E8E4DC] overflow-hidden shadow-xs">
-                    <div class="px-6 py-4 bg-[#FBF9F5] border-b border-[#E8E4DC] flex justify-between items-center">
-                        <h3 class="font-bold text-[#1B3830] font-luxury text-lg">Catalogue des Vidéos de Cours</h3>
-                        <span class="text-xs text-[#5A6E64] font-medium">Géré en temps réel</span>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-[#3A4F44]">
-                            <thead class="bg-[#F3EFEA] uppercase text-[11px] font-semibold text-[#5A6E64] border-b border-[#E8E4DC]">
-                                <tr>
-                                    <th class="px-6 py-3.5">Titre de la Vidéo</th>
-                                    <th class="px-6 py-3.5">Catégorie</th>
-                                    <th class="px-6 py-3.5">Durée</th>
-                                    <th class="px-6 py-3.5">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminVideosTableBody">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#1B3830] text-[#E8E4DC] py-16 px-6 lg:px-8 border-t border-[#2C4A3E]">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-            <div class="space-y-4">
-                <div class="flex items-center space-x-3 rtl:space-x-reverse text-white">
-                    <div class="w-10 h-10 rounded-full bg-[#C5A059] text-[#1B3830] flex items-center justify-center font-bold text-lg shadow-md">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <span class="font-bold text-xl font-luxury">Centre Holistique</span>
+    <footer class="bg-[#0A1A15] text-[#E8E4DC] py-20 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
+            <div class="space-y-6">
+                <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <img src="logo.png" alt="Logo" class="w-10 h-10 rounded-full border border-[#C5A059]/30">
+                    <span class="font-bold text-2xl font-luxury text-white">Centre Holistique</span>
                 </div>
-                <p class="text-sm text-[#D1CBC1] font-light leading-relaxed">Cabinet de soins énergétiques et formation holistique dirigé par Raouia Gharbal.</p>
+                <p class="text-sm text-[#8A9E94] leading-relaxed font-light">
+                    Plateforme dédiée à l'éveil des consciences et à la guérison holistique par Raouia Gharbal. Sfax, Tunis & Online.
+                </p>
             </div>
-            <div class="space-y-4">
-                <h4 class="text-white font-semibold text-xs uppercase tracking-widest text-[#C5A059]">Liens Rapides</h4>
-                <ul class="space-y-2.5 text-sm font-light">
-                    <li><a href="#home" class="hover:text-[#C5A059] transition">Accueil</a></li>
-                    <li><a href="#formations" class="hover:text-[#C5A059] transition">Formations & Cours</a></li>
-                    <li><a href="#soins" class="hover:text-[#C5A059] transition">Séances & Soins</a></li>
-                    <li><a href="#booking" class="hover:text-[#C5A059] transition">Prendre RDV</a></li>
+            <div>
+                <h4 class="text-[#C5A059] font-black text-xs uppercase tracking-[3px] mb-8">Contact</h4>
+                <ul class="space-y-4 text-sm">
+                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <i class="fab fa-whatsapp text-[#C5A059]"></i>
+                        <span>+216 26 660 344</span>
+                    </li>
+                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <i class="fas fa-envelope text-[#C5A059]"></i>
+                        <span>rawiahealing@gmail.com</span>
+                    </li>
+                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <i class="fas fa-location-dot text-[#C5A059]"></i>
+                        <span>Sfax / Tunis / Online</span>
+                    </li>
                 </ul>
             </div>
-            <div class="space-y-4">
-                <h4 class="text-white font-semibold text-xs uppercase tracking-widest text-[#C5A059]">Contact & WhatsApp</h4>
-                <p class="text-sm font-light"><i class="fab fa-whatsapp mr-2.5 rtl:ml-2.5 text-[#C5A059]"></i> +216 660 344</p>
-                <p class="text-sm font-light"><i class="fas fa-envelope mr-2.5 rtl:ml-2.5 text-[#C5A059]"></i> rawiahealing@gmail.com</p>
-                <p class="text-sm font-light"><i class="fas fa-map-marker-alt mr-2.5 rtl:ml-2.5 text-[#C5A059]"></i> En ligne & Cabinet</p>
+            <div>
+                <h4 class="text-[#C5A059] font-black text-xs uppercase tracking-[3px] mb-8">Espace Client</h4>
+                <p class="text-sm text-[#8A9E94] mb-6">Accédez à vos formations ou créez votre compte gratuit.</p>
+                <button onclick="openModal('signupModal')" class="bg-white/5 border border-white/20 px-8 py-3 rounded-full hover:bg-white/10 transition text-sm font-bold">Créer un compte</button>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-8 border-t border-[#2C4A3E] text-center text-xs text-[#D1CBC1] font-light">
-            &copy; 2026 Centre Holistique - Raouia Gharbal. All rights reserved.
+        <div class="max-w-7xl mx-auto pt-10 border-t border-white/5 text-center text-[10px] text-[#5A6E64] font-bold uppercase tracking-widest">
+            &copy; 2026 Centre Holistique • Raouia Gharbal. Developed with Aura.
         </div>
     </footer>
 
-    <!-- ADMIN LOGIN MODAL (لوقين ليلي) -->
-    <div id="adminLoginModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-8 space-y-6 shadow-2xl border border-[#E8E4DC]">
-            <div class="text-center space-y-2">
-                <div class="w-12 h-12 bg-[#1B3830] text-[#C5A059] rounded-full flex items-center justify-center text-xl mx-auto shadow-md">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <h3 class="text-xl font-bold font-luxury text-[#1B3830]">Connexion Administrateur</h3>
-                <p class="text-xs text-[#5A6E64]">Espace réservé à la thérapeute Raouia Gharbal</p>
+    <!-- MODALS -->
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-[200] p-4">
+        <div class="bg-white rounded-[40px] max-w-md w-full p-8 sm:p-12 space-y-6 shadow-2xl modal-enter">
+            <div class="flex justify-between items-start">
+                <h3 class="text-3xl font-bold font-luxury text-[#1B3830]">S'inscrire</h3>
+                <button onclick="closeModal('signupModal')" class="text-[#8A9E94] hover:text-black transition"><i class="fas fa-times text-2xl"></i></button>
             </div>
-            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Mot de passe</label>
-                    <input type="password" id="adminPasswordInput" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm text-center tracking-widest" placeholder="••••••••">
-                </div>
-                <button type="submit" class="w-full bg-[#1B3830] hover:bg-[#2C4A3E] text-white font-bold py-3 rounded-2xl shadow-sm text-sm transition">
-                    Se connecter
-                </button>
-                <button type="button" onclick="closeAdminLoginModal()" class="w-full text-xs text-[#5A6E64] hover:text-[#1B3830] pt-1">
-                    Fermer
-                </button>
+            <p class="text-sm text-[#5A6E64]">Rejoignez notre communauté spirituelle.</p>
+            <form onsubmit="handleSignup(event)" class="space-y-4">
+                <input type="text" id="regName" placeholder="Nom Complet" required class="w-full py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none focus:border-[#C5A059]">
+                <input type="email" id="regEmail" placeholder="Email" required class="w-full py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none focus:border-[#C5A059]">
+                <input type="password" id="regPass" placeholder="Mot de passe" required class="w-full py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none focus:border-[#C5A059]">
+                <button type="submit" class="w-full bg-[#1B3830] text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-black transition">Créer le compte</button>
             </form>
         </div>
     </div>
 
-                <!-- ADD VIDEO MODAL -->
-    <div id="videoModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 space-y-6 shadow-2xl border border-[#E8E4DC]">
-            <div class="flex justify-between items-center border-b border-[#E8E4DC] pb-4">
-                <h3 class="text-xl font-bold font-luxury text-[#1B3830]">Ajouter un nouveau contenu</h3>
-                <button onclick="closeAddVideoModal()" class="text-[#5A6E64] hover:text-[#1B3830]"><i class="fas fa-times text-xl"></i></button>
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-[200] p-4">
+        <div class="bg-white rounded-[40px] max-w-md w-full p-8 sm:p-12 space-y-6 shadow-2xl modal-enter">
+            <div class="flex justify-between items-start">
+                <h3 class="text-3xl font-bold font-luxury text-[#1B3830]">Connexion</h3>
+                <button onclick="closeModal('loginModal')" class="text-[#8A9E94] hover:text-black transition"><i class="fas fa-times text-2xl"></i></button>
             </div>
-            <form id="addVideoForm" onsubmit="handleAddVideo(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Titre du cours</label>
-                    <input type="text" id="vidTitle" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <input type="email" id="logEmail" placeholder="Email" required class="w-full py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none focus:border-[#C5A059]">
+                <input type="password" id="logPass" placeholder="Mot de passe" required class="w-full py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none focus:border-[#C5A059]">
+                <div class="text-right">
+                    <button type="button" onclick="alert('Contactez Raouia sur WhatsApp pour réinitialiser')" class="text-xs text-[#C5A059] font-bold">Mot de passe oublié ?</button>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <button type="submit" class="w-full bg-[#1B3830] text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-black transition">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD (FULL SCREEN OVERLAY) -->
+    <div id="adminPanel" class="fixed inset-0 bg-[#FBF9F5] hidden z-[300] overflow-y-auto">
+        <div class="max-w-7xl mx-auto p-6 sm:p-10">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12 border-b border-[#E8E4DC] pb-10">
+                <div>
+                    <span class="bg-[#1B3830] text-[#C5A059] text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-2 inline-block">Privé • Raouia Gharbal</span>
+                    <h2 class="text-4xl font-bold font-luxury text-[#1B3830]">Espace Administratif</h2>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="openModal('addCourseModal')" class="bg-[#C5A059] text-[#1B3830] px-8 py-3 rounded-full font-black shadow-lg hover:scale-105 transition"><i class="fas fa-plus mr-2"></i> Nouveau Cours</button>
+                    <button onclick="closeAdmin()" class="bg-rose-100 text-rose-700 px-8 py-3 rounded-full font-bold hover:bg-rose-200 transition">Quitter</button>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white p-8 rounded-[32px] border border-[#E8E4DC] shadow-sm flex items-center justify-between">
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Catégorie</label>
-                        <input type="text" id="vidCat" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                        <p class="text-xs font-bold text-[#5A6E64] uppercase tracking-widest mb-1">Formations</p>
+                        <h4 id="statTotalCourses" class="text-3xl font-black text-[#1B3830]">0</h4>
                     </div>
+                    <div class="w-14 h-14 bg-[#FBF9F5] rounded-2xl flex items-center justify-center text-xl text-[#C5A059]"><i class="fas fa-graduation-cap"></i></div>
+                </div>
+                <div class="bg-white p-8 rounded-[32px] border border-[#E8E4DC] shadow-sm flex items-center justify-between">
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Durée</label>
-                        <input type="text" id="vidDuration" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm">
+                        <p class="text-xs font-bold text-[#5A6E64] uppercase tracking-widest mb-1">Inscriptions</p>
+                        <h4 id="statTotalUsers" class="text-3xl font-black text-[#1B3830]">0</h4>
+                    </div>
+                    <div class="w-14 h-14 bg-[#FBF9F5] rounded-2xl flex items-center justify-center text-xl text-[#C5A059]"><i class="fas fa-users"></i></div>
+                </div>
+                <div class="bg-white p-8 rounded-[32px] border border-[#E8E4DC] shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-[#5A6E64] uppercase tracking-widest mb-1">WhatsApp</p>
+                        <h4 class="text-sm font-bold text-[#1B3830]">+216 26 660 344</h4>
+                    </div>
+                    <div class="w-14 h-14 bg-[#FBF9F5] rounded-2xl flex items-center justify-center text-xl text-[#C5A059]"><i class="fab fa-whatsapp"></i></div>
+                </div>
+            </div>
+
+            <!-- Admin Course List -->
+            <div class="bg-white rounded-[40px] border border-[#E8E4DC] shadow-sm overflow-hidden mb-20">
+                <div class="p-8 bg-[#FBF9F5] border-b border-[#E8E4DC] flex justify-between items-center">
+                    <h3 class="font-bold text-xl text-[#1B3830]">Mes Formations</h3>
+                    <p class="text-xs text-[#5A6E64]">Gérez vos cours, vidéos, audios et PDF</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-[#F3EFEA] text-[10px] font-black uppercase tracking-widest text-[#5A6E64]">
+                                <th class="p-6">Formation</th>
+                                <th class="p-6">Prix</th>
+                                <th class="p-6">Contenu</th>
+                                <th class="p-6 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminCoursesTable">
+                            <!-- JS Load -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- User Verification / Approvals -->
+            <div class="bg-white rounded-[40px] border border-[#E8E4DC] shadow-sm overflow-hidden">
+                <div class="p-8 bg-[#FBF9F5] border-b border-[#E8E4DC]">
+                    <h3 class="font-bold text-xl text-[#1B3830]">Demandes d'Accès (Paiements)</h3>
+                </div>
+                <div class="p-8 text-center text-[#5A6E64] text-sm">
+                    <i class="fas fa-info-circle mr-2"></i> Les clients vous envoient la preuve de paiement sur WhatsApp. Une fois reçu, débloquez le cours pour l'utilisateur ci-dessous :
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-[#F3EFEA] text-[10px] font-black uppercase tracking-widest text-[#5A6E64]">
+                                <th class="p-6">Utilisateur</th>
+                                <th class="p-6">Email</th>
+                                <th class="p-6 text-center">Actions / Accès</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersTable">
+                            <!-- JS Load -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Add Course -->
+    <div id="addCourseModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-[400] p-4">
+        <div class="bg-white rounded-[40px] max-w-2xl w-full p-8 sm:p-12 space-y-8 overflow-y-auto max-h-[90vh] modal-enter">
+            <div class="flex justify-between items-center">
+                <h3 class="text-3xl font-bold font-luxury text-[#1B3830]">Nouveau Cours</h3>
+                <button onclick="closeModal('addCourseModal')" class="text-[#8A9E94] hover:text-black transition"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+
+            <form onsubmit="handleSaveCourse(event)" class="grid grid-cols-1 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input type="text" id="cTitle" placeholder="Titre de la formation" required class="py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none">
+                    <input type="number" id="cPrice" placeholder="Prix (TND / €)" required class="py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none">
+                </div>
+                <textarea id="cDesc" placeholder="Description courte (apparaît à tout le monde)" required rows="3" class="py-4 px-6 rounded-2xl bg-[#FBF9F5] border border-[#E8E4DC] outline-none"></textarea>
+
+                <div class="p-6 bg-[#F3EFEA] rounded-3xl space-y-6">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-[#1B3830] border-b border-[#C5A059]/30 pb-2">Contenu Privé (Seulement pour les payeurs)</p>
+
+                    <div class="space-y-4">
+                        <label class="block text-xs font-bold">Image de Couverture (Upload)</label>
+                        <input type="file" id="cImage" accept="image/*" class="w-full text-xs">
+
+                        <label class="block text-xs font-bold">Vidéo (Lien YouTube/Vimeo)</label>
+                        <input type="text" id="cVideoLink" placeholder="https://..." class="w-full py-3 px-4 rounded-xl border">
+
+                        <label class="block text-xs font-bold">Document PDF (Upload)</label>
+                        <input type="file" id="cPdf" accept=".pdf" class="w-full text-xs">
+
+                        <label class="block text-xs font-bold">Audio MP3 (Upload)</label>
+                        <input type="file" id="cAudio" accept="audio/*" class="w-full text-xs">
+
+                        <label class="block text-xs font-bold">Lien Canal Telegram (Optionnel)</label>
+                        <input type="text" id="cTelegram" placeholder="https://t.me/..." class="w-full py-3 px-4 rounded-xl border">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Lien Vidéo (YouTube)</label>
-                    <input type="text" id="vidUrl" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="https://youtube.com/...">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Lien Image de couverture</label>
-                    <input type="text" id="vidImg" required class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="https://imgbb.com/...">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#3A4F44] mb-2">Lien Audio (MP3)</label>
-                    <input type="text" id="vidAudio" class="w-full px-4.5 py-3 rounded-2xl border border-[#E8E4DC] bg-[#FBF9F5] focus:ring-2 focus:ring-[#1B3830] focus:outline-none text-sm" placeholder="https://soundcloud.com/...">
-                </div>
-                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
-                    <button type="button" onclick="closeAddVideoModal()" class="px-5 py-2.5 rounded-xl border border-[#E8E4DC] text-[#3A4F44] hover:bg-[#FBF9F5] text-sm font-semibold">Annuler</button>
-                    <button type="submit" class="px-6 py-2.5 bg-[#1B3830] hover:bg-[#2C4A3E] text-white font-semibold rounded-xl shadow-sm text-sm">Enregistrer</button>
+
+                <div class="flex gap-4">
+                    <button type="button" onclick="closeModal('addCourseModal')" class="flex-1 py-4 font-bold border border-[#E8E4DC] rounded-2xl">Annuler</button>
+                    <button type="submit" class="flex-[2] py-4 font-bold bg-[#C5A059] text-[#1B3830] rounded-2xl shadow-lg hover:scale-105 transition">Créer la formation</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/21626660344" target="_blank" class="float-wa bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition animate__animated animate__bounceIn animate__delay-2s">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- JS Logic -->
     <script>
-        const translations = {
+        // Core Database (LocalStorage)
+        const storage = {
+            users: JSON.parse(localStorage.getItem('rawia_users')) || [],
+            courses: JSON.parse(localStorage.getItem('rawia_courses')) || [],
+            currentUser: JSON.parse(sessionStorage.getItem('rawia_logged_user')) || null
+        };
+
+        function saveDB() {
+            localStorage.setItem('rawia_users', JSON.stringify(storage.users));
+            localStorage.setItem('rawia_courses', JSON.stringify(storage.courses));
+            if (storage.currentUser) sessionStorage.setItem('rawia_logged_user', JSON.stringify(storage.currentUser));
+        }
+
+        // Language Config
+        const i18n = {
             fr: {
-                topAnnouncement: "Centre Holistique • المعالجة راوية غربال | Raouia Gharbal",
-                navTitle: "Centre Holistique",
-                navSubtitle: "Par Raouia Gharbal",
-                navHome: "Accueil",
-                navFormations: "Formations & Cours",
-                navSoins: "Séances & Soins",
-                navBooking: "Prendre RDV",
-                navDashboard: "Dashboard Admin",
-                heroBadge: "Par Raouia Gharbal • المعالجة راوية غربال",
-                heroTitle: "Éveillez Votre Conscience & Libérez Votre Énergie Vitale",
-                heroSubtitle: "Séances de soins énergétiques personnalisées, thérapies quantiques et formations holistiques pour un alignement profond.",
-                heroCtaRdv: "Réserver via WhatsApp",
-                heroCtaSoins: "Découvrir les Séances",
-                therapistBadge: "Votre Praticienne & Thérapeute",
-                therapistName: "Raouia Gharbal (راوية غربال)",
-                therapistBio: "Experte en thérapies énergétiques et quantiques, Raouia vous accompagne à travers des approches holistiques puissantes pour vous libérer des blocages karmiques, émotionnels et retrouver votre paix intérieure.",
-                whatsappContactBtn: "Contact WhatsApp (+216 660 344)",
-                badgeFormationsSub: "Apprentissage & Élévation",
-                formationsTitle: "Nos Formations en Soins Énergétiques",
-                formationsSubtitle: "Accédez à nos cours vidéo enrichissants pour devenir praticien certifié.",
-                badgeReiki: "Niveau 1 & 2",
-                course1Title: "Initiation au Reiki Usui",
-                course1Desc: "Apprenez à canaliser l'énergie universelle pour l'autoguérison et le soin des autres.",
-                watchBtn: "Voir le cours",
-                badgeChakras: "Énergétique",
-                course2Title: "Harmonisation des Chakras",
-                course2Desc: "Comprendre les 7 centres énergétiques principaux et libérer les blocages émotionnels.",
-                badgeAura: "Pratique",
-                course3Title: "Nettoyage et Protection de l'Aura",
-                course3Desc: "Techniques avancées pour se protéger des énergies négatives et purifier son champ aurique.",
-                badgeSoinsSub: "Guérison & Transformation",
-                soinsTitle: "Toutes nos Séances Thérapeutiques",
-                soinsSubtitle: "Dispencées par Raouia Gharbal, réservez votre séance et contactez-nous directement sur WhatsApp pour confirmer."
+                navHome: "Accueil", navFormations: "Formations", navSoins: "Soins", navBooking: "Prendre RDV", btnLogin: "Connexion", btnSignup: "S'inscrire",
+                heroTitle: "Éveil & Transformation Spirituelle", heroSubtitle: "Reconnectez-vous à votre essence à travers nos soins énergétiques.",
+                bookingTitle: "Prendre Rendez-vous"
             },
             ar: {
-                topAnnouncement: "مركز هولستيك • المعالجة راوية غربال | Raouia Gharbal",
-                navTitle: "مركز هولستيك",
-                navSubtitle: "بإشراف راوية غربال",
-                navHome: "الرئيسية",
-                navFormations: "الدورات والتكوين",
-                navSoins: "الجلسات والعلاجات",
-                navBooking: "حجز موعد",
-                navDashboard: "لوحة التحكم",
-                heroBadge: "بإشراف المعالجة راوية غربال • Raouia Gharbal",
-                heroTitle: "أيقظ وعيك وحرر طاقتك الحيوية مع أحدث جلسات العلاج الطاقي",
-                heroSubtitle: "جلسات علاجية واستشارية متخصصة وتكوينات روحية لعمق السلام الداخلي.",
-                heroCtaRdv: "حجز عبر واتساب",
-                heroCtaSoins: "استكشف الجلسات",
-                therapistBadge: "المعالجة والأخصائية",
-                therapistName: "راوية غربال (Raouia Gharbal)",
-                therapistBio: "خريجة وخبرة واسعة في العلاجات الطاقية والكمية. رافقت مئات المستفيدين نحو التحرر من الصدمات والتحرر الكارمي.",
-                whatsappContactBtn: "تواصل عبر واتساب (+216 660 344)",
-                badgeFormationsSub: "التعلم والارتقاء الروحي",
-                formationsTitle: "دوراتنا في العلاج الطاقي",
-                formationsSubtitle: "استمتع بمشاهدة الدروس المصورة لتصبح معالجاً معتمداً.",
-                badgeReiki: "المستوى 1 و 2",
-                course1Title: "مقدمة في طاقة الريكي أوسوي",
-                course1Desc: "تعلم كيفية توجيه الطاقة الكونية للشفاء الذاتي ومساعدة الآخرين.",
-                watchBtn: "مشاهدة الدرس",
-                badgeChakras: "طاقة الشاكرا",
-                course2Title: "موازنة وتنشيط مراكز الطاقة (Chakras)",
-                course2Desc: "فهم مراكز الطاقة السبعة الرئيسية وتحرير الصدمات العاطفية.",
-                badgeAura: "تطبيقي",
-                course3Title: "تنظيف وحماية الهالة الطاقية",
-                course3Desc: "تقنيات متقدمة لحماية الحقل الطاقي من الترددات السلبية وتنقية الهالة.",
-                badgeSoinsSub: "الشفاء والتحول العميق",
-                soinsTitle: "جميع الجلسات العلاجية المتاحة",
-                soinsSubtitle: "بإشراف المعالجة راوية غربال. اختر جلستك واضغط للحجز عبر واتساب."
+                navHome: "الرئيسية", navFormations: "الدورات", navSoins: "الجلسات", navBooking: "حجز موعد", btnLogin: "دخول", btnSignup: "حساب جديد",
+                heroTitle: "أيقظ وعيك وحرر طاقتك الحيوية", heroSubtitle: "رحلتك نحو التشافي والارتقاء الروحي تبدأ من هنا مع راوية غربال.",
+                bookingTitle: "حجز موعد جديد"
             }
         };
 
-        let currentLang = 'fr';
-
-        function switchLanguage(lang) {
-            currentLang = lang;
+        function switchLanguage(l) {
             const root = document.getElementById('htmlRoot');
-            const btnFr = document.getElementById('btnFr');
-            const btnAr = document.getElementById('btnAr');
+            root.dir = l === 'ar' ? 'rtl' : 'ltr';
+            root.lang = l;
+            if(l === 'ar') document.body.classList.add('lang-ar');
+            else document.body.classList.remove('lang-ar');
 
-            if (lang === 'ar') {
-                root.setAttribute('dir', 'rtl');
-                root.setAttribute('lang', 'ar');
-                root.classList.add('lang-ar');
-                btnAr.className = "px-3 py-1 rounded-md bg-[#C5A059] text-white font-medium text-xs transition shadow-xs";
-                btnFr.className = "px-3 py-1 rounded-md bg-[#2C4A3E] hover:bg-[#385E50] text-xs transition text-[#E8E4DC]";
-            } else {
-                root.setAttribute('dir', 'ltr');
-                root.setAttribute('lang', 'fr');
-                root.classList.remove('lang-ar');
-                btnFr.className = "px-3 py-1 rounded-md bg-[#C5A059] text-white font-medium text-xs transition shadow-xs";
-                btnAr.className = "px-3 py-1 rounded-md bg-[#2C4A3E] hover:bg-[#385E50] text-xs transition text-[#E8E4DC]";
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(i18n[l][key]) el.textContent = i18n[l][key];
+            });
+            renderCourses();
+            renderSessions();
+        }
+
+        // Auth Logic
+        function handleSignup(e) {
+            e.preventDefault();
+            const user = {
+                id: Date.now(),
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value.toLowerCase(),
+                pass: document.getElementById('regPass').value,
+                purchased: [],
+                role: 'student'
+            };
+            if(storage.users.some(u => u.email === user.email)) return alert("Email déjà utilisé!");
+            storage.users.push(user);
+            saveDB();
+            alert("Compte créé! Connectez-vous maintenant.");
+            closeModal('signupModal');
+            openModal('loginModal');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('logEmail').value.toLowerCase();
+            const pass = document.getElementById('logPass').value;
+
+            // Admin Check
+            if(email === 'admin@rawia.com' && pass === 'raouia2026') {
+                storage.currentUser = { id: 0, name: 'Raouia Admin', role: 'admin' };
+                updateUI();
+                closeModal('loginModal');
+                return openAdmin();
             }
 
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
+            const user = storage.users.find(u => u.email === email && u.pass === pass);
+            if(!user) return alert("Email أو كلمة مرور خاطئة");
+
+            storage.currentUser = user;
+            saveDB();
+            updateUI();
+            closeModal('loginModal');
+            alert("أهلاً بك " + user.name);
+        }
+
+        function logout() {
+            storage.currentUser = null;
+            sessionStorage.removeItem('rawia_logged_user');
+            location.reload();
+        }
+
+        // Admin Course Logic
+        async function handleSaveCourse(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<div class="loader mx-auto"></div>';
+
+            const toBase64 = f => new Promise((res, rej) => {
+                const r = new FileReader(); r.readAsDataURL(f);
+                r.onload = () => res(r.result); r.onerror = e => rej(e);
+            });
+
+            const course = {
+                id: Date.now(),
+                title: document.getElementById('cTitle').value,
+                price: document.getElementById('cPrice').value,
+                desc: document.getElementById('cDesc').value,
+                video: document.getElementById('cVideoLink').value,
+                telegram: document.getElementById('cTelegram').value,
+                image: '', audio: '', pdf: ''
+            };
+
+            const imgFile = document.getElementById('cImage').files[0];
+            const pdfFile = document.getElementById('cPdf').files[0];
+            const audioFile = document.getElementById('cAudio').files[0];
+
+            if(imgFile) course.image = await toBase64(imgFile);
+            if(pdfFile) course.pdf = await toBase64(pdfFile);
+            if(audioFile) course.audio = await toBase64(audioFile);
+
+            storage.courses.push(course);
+            saveDB();
+            alert("Course Ajouté!");
+            location.reload();
+        }
+
+        function deleteCourse(id) {
+            if(!confirm("Supprimer ?")) return;
+            storage.courses = storage.courses.filter(c => c.id !== id);
+            saveDB();
+            renderAdminPanel();
+        }
+
+        function giveAccess(userId, courseId) {
+            const user = storage.users.find(u => u.id == userId);
+            if(!user.purchased.includes(courseId)) {
+                user.purchased.push(courseId);
+                saveDB();
+                alert("Accès autorisé!");
+                renderAdminPanel();
+            }
+        }
+
+        // UI Handlers
+        function updateUI() {
+            if(storage.currentUser) {
+                document.getElementById('authButtons').classList.add('hidden');
+                document.getElementById('mobileAuth').classList.add('hidden');
+                document.getElementById('userStatus').classList.remove('hidden');
+                document.getElementById('loggedUserName').textContent = storage.currentUser.name;
+                if(storage.currentUser.role === 'admin') document.getElementById('adminBtn').classList.remove('hidden');
+            }
+            renderCourses();
+        }
+
+        function renderCourses() {
+            const grid = document.getElementById('coursesGrid');
+            grid.innerHTML = '';
+            if(storage.courses.length === 0) return document.getElementById('noCourses').classList.remove('hidden');
+            document.getElementById('noCourses').classList.add('hidden');
+
+            storage.courses.forEach(c => {
+                const isOwned = storage.currentUser && (storage.currentUser.role === 'admin' || storage.currentUser.purchased.includes(c.id));
+                const card = `
+                    <div class="bg-white rounded-[32px] overflow-hidden shadow-sm border border-[#E8E4DC] hover:shadow-xl transition-all duration-500 group flex flex-col">
+                        <div class="h-64 relative overflow-hidden">
+                            <img src="${c.image || 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80'}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl font-black text-[#1B3830] shadow-md">${c.price} TND</div>
+                            ${!isOwned ? '<div class="absolute inset-0 bg-black/20 flex items-center justify-center"><i class="fas fa-lock text-white text-3xl opacity-50"></i></div>' : ''}
+                        </div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <h3 class="text-2xl font-bold font-luxury text-[#1B3830] mb-4">${c.title}</h3>
+                            <p class="text-sm text-[#5A6E64] line-clamp-3 mb-8 font-light">${c.desc}</p>
+
+                            <div class="pt-6 border-t border-[#E8E4DC] mt-auto">
+                                ${isOwned ? `
+                                    <div class="space-y-4">
+                                        <p class="text-[10px] font-black uppercase text-[#C5A059] tracking-widest">Accès Débloqué ✅</p>
+                                        ${c.video ? `<a href="${c.video}" target="_blank" class="block bg-[#1B3830] text-white text-center py-3 rounded-xl font-bold hover:bg-black transition"><i class="fas fa-play mr-2"></i> Regarder</a>` : ''}
+                                        <div class="flex gap-2">
+                                            ${c.pdf ? `<a href="${c.pdf}" download="${c.title}.pdf" class="flex-1 bg-[#F3EFEA] text-[#1B3830] text-center py-2 rounded-xl text-xs font-bold"><i class="fas fa-file-pdf mr-1"></i> PDF</a>` : ''}
+                                            ${c.audio ? `<a href="${c.audio}" download="${c.title}.mp3" class="flex-1 bg-[#F3EFEA] text-[#1B3830] text-center py-2 rounded-xl text-xs font-bold"><i class="fas fa-headphones mr-1"></i> Audio</a>` : ''}
+                                        </div>
+                                        ${c.telegram ? `<a href="${c.telegram}" target="_blank" class="block bg-[#0088cc] text-white text-center py-3 rounded-xl font-bold transition"><i class="fab fa-telegram mr-2"></i> Canal Telegram</a>` : ''}
+                                    </div>
+                                ` : `
+                                    <button onclick="buyCourse(${c.id}, '${c.title}')" class="w-full bg-[#1B3830] text-white py-4 rounded-2xl font-bold hover:bg-[#C5A059] hover:text-[#1B3830] transition shadow-lg">Acheter le cours</button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
             });
         }
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
+        function buyCourse(id, title) {
+            if(!storage.currentUser) return openModal('signupModal');
+            const msg = `Bonjour Raouia, je souhaite acheter le cours "${title}". Mon email: ${storage.currentUser.email}. ID Transaction: ${storage.currentUser.id}-${id}`;
+            window.open(`https://wa.me/21626660344?text=${encodeURIComponent(msg)}`, '_blank');
+            alert("Veuillez envoyer la preuve de paiement sur WhatsApp pour que Raouia débloque votre accès.");
         }
 
-        // WhatsApp Direct Booking
-        function selectServiceForBooking(serviceName) {
-            document.getElementById('waService').value = serviceName;
+        function renderSessions() {
+            const grid = document.getElementById('sessionsGrid');
+            const l = document.getElementById('htmlRoot').lang;
+            grid.innerHTML = '';
+            sessionData.forEach(s => {
+                grid.innerHTML += `
+                    <div class="bg-white p-8 rounded-[40px] shadow-sm border border-[#E8E4DC] hover:border-[#C5A059] hover:-translate-y-2 transition duration-500 text-center group">
+                        <div class="w-20 h-20 mx-auto rounded-3xl bg-[#FBF9F5] flex items-center justify-center text-3xl text-[#C5A059] mb-6 group-hover:bg-[#1B3830] transition duration-500"><i class="fas ${s.icon}"></i></div>
+                        <h3 class="text-xl font-bold font-luxury text-[#1B3830] mb-4">${l === 'ar' ? s.titleAr : s.titleFr}</h3>
+                        <button onclick="selectSession('${l === 'ar' ? s.titleAr : s.titleFr}')" class="text-xs font-black uppercase tracking-widest text-[#C5A059] hover:text-[#1B3830] transition">Réserver Maintenant</button>
+                    </div>
+                `;
+            });
+            // Populate select
+            const sel = document.getElementById('bookService');
+            sel.innerHTML = '';
+            sessionData.forEach(s => {
+                sel.innerHTML += `<option value="${s.titleFr}">${l === 'ar' ? s.titleAr : s.titleFr}</option>`;
+            });
+        }
+
+        function selectSession(name) {
+            document.getElementById('bookService').value = name;
             document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function handleWhatsAppBooking(e) {
+        function handleWABooking(e) {
             e.preventDefault();
-            const name = document.getElementById('waName').value;
-            const mode = document.getElementById('waMode').value;
-            const service = document.getElementById('waService').value;
-            const date = document.getElementById('waDate').value;
-            const phone = document.getElementById('waPhone').value;
-            const email = document.getElementById('waEmail').value;
-
-            const text = `Bonjour Raouia, je souhaite réserver la séance "${service}" en mode "${mode}" pour le ${date}. Mon nom est ${name}. Téléphone: ${phone}, Email: ${email}.`;
-            const encodedText = encodeURIComponent(text);
-            const whatsappUrl = `https://wa.me/21626660344?text=${encodedText}`;
-            window.open(whatsappUrl, '_blank');
+            const msg = `Rendez-vous: ${document.getElementById('bookService').value}\nNom: ${document.getElementById('bookName').value}\nMode: ${document.getElementById('bookMode').value}\nDate: ${document.getElementById('bookDate').value}`;
+            window.open(`https://wa.me/21626660344?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Admin Login Modal (لوقين ليلي)
-        function openAdminLoginModal() {
-            document.getElementById('adminLoginModal').classList.remove('hidden');
-            document.getElementById('adminLoginModal').classList.add('flex');
+        function openAdmin() {
+            if(!storage.currentUser || storage.currentUser.role !== 'admin') return;
+            document.getElementById('adminPanel').classList.remove('hidden');
+            renderAdminPanel();
         }
 
-        function closeAdminLoginModal() {
-            document.getElementById('adminLoginModal').classList.add('hidden');
-            document.getElementById('adminLoginModal').classList.remove('flex');
+        function closeAdmin() { document.getElementById('adminPanel').classList.add('hidden'); }
+
+        function checkAdminAndOpen() {
+            const pass = prompt("Mot de passe Admin:");
+            if(pass === 'raouia2026') openAdmin();
+            else alert("Accès refusé.");
         }
 
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const pass = document.getElementById('adminPasswordInput').value;
-            // Password for Raouia
-            if (pass === 'raouia2026' || pass === 'raouia' || pass === 'admin') {
-                closeAdminLoginModal();
-                document.getElementById('dashboardSection').classList.remove('hidden');
-                document.getElementById('dashboardSection').scrollIntoView({ behavior: 'smooth' });
-                localStorage.setItem('raouia_admin_logged', 'true');
-                document.getElementById('adminPasswordInput').value = '';
-            } else {
-                alert("Mot de passe incorrect. (Mot de passe par défaut: raouia2026)");
-            }
-        }
+        function renderAdminPanel() {
+            document.getElementById('statTotalCourses').textContent = storage.courses.length;
+            document.getElementById('statTotalUsers').textContent = storage.users.length;
 
-        function lockAdminDashboard() {
-            document.getElementById('dashboardSection').classList.add('hidden');
-            localStorage.removeItem('raouia_admin_logged');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Videos Management
-        const defaultVideos = [
-            { id: 1, title: "Initiation au Reiki - Module 1", category: "Reiki", duration: "45 min", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-            { id: 2, title: "Équilibrage du Chakra du Cœur", category: "Chakras", duration: "30 min", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
-        ];
-
-        let videos = JSON.parse(localStorage.getItem('raouia_videos')) || defaultVideos;
-
-        function saveVideos() {
-            localStorage.setItem('raouia_videos', JSON.stringify(videos));
-            renderAdminVideos();
-        }
-
-        function renderAdminVideos() {
-            const tbody = document.getElementById('adminVideosTableBody');
-            document.getElementById('statTotalVideos').textContent = videos.length + 8; // 8 private sessions + videos
-            tbody.innerHTML = '';
-
-            if (videos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-[#5A6E64]">Aucune vidéo de cours enregistrée.</td></tr>`;
-                return;
-            }
-
-            videos.forEach((v) => {
-                tbody.innerHTML += `
-                    <tr class="border-b border-[#E8E4DC] hover:bg-[#FBF9F5] transition">
-                        <td class="px-6 py-4 font-semibold text-[#1B3830]">
-                           <div class="flex items-center gap-3">
-                              ${v.imageUrl ? `<img src="${v.imageUrl}" class="w-10 h-10 rounded-lg object-cover">` : ''}
-                              ${v.title}
-                           </div>
+            const cTable = document.getElementById('adminCoursesTable');
+            cTable.innerHTML = '';
+            storage.courses.forEach(c => {
+                cTable.innerHTML += `
+                    <tr class="border-b hover:bg-stone-50 transition">
+                        <td class="p-6">
+                            <div class="flex items-center gap-3">
+                                <img src="${c.image}" class="w-10 h-10 rounded-lg object-cover">
+                                <span class="font-bold">${c.title}</span>
+                            </div>
                         </td>
-                        <td class="px-6 py-4"><span class="bg-[#1B3830]/10 text-[#1B3830] text-xs px-3 py-1 rounded-full font-medium">${v.category}</span></td>
-                        <td class="px-6 py-4 text-xs font-medium">
-                           ${v.duration}<br>
-                           ${v.audioUrl ? `<a href="${v.audioUrl}" target="_blank" class="text-emerald-600 underline">Fichier Audio (MP3)</a>` : ''}
+                        <td class="p-6 font-bold text-[#C5A059]">${c.price} TND</td>
+                        <td class="p-6 text-[10px]">
+                            ${c.video ? '🎥 ' : ''} ${c.pdf ? '📄 ' : ''} ${c.audio ? '🎵 ' : ''} ${c.telegram ? '📱 ' : ''}
                         </td>
-                        <td class="px-6 py-4 flex space-x-2 rtl:space-x-reverse">
-                            <a href="${v.url}" target="_blank" class="text-[#1B3830] hover:text-[#C5A059] p-1.5" title="Voir"><i class="fas fa-play"></i></a>
-                            <button onclick="deleteVideo(${v.id})" class="text-rose-500 hover:text-rose-700 p-1.5" title="Supprimer"><i class="fas fa-trash"></i></button>
+                        <td class="p-6 text-center">
+                            <button onclick="deleteCourse(${c.id})" class="text-rose-600 p-2"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            const uTable = document.getElementById('adminUsersTable');
+            uTable.innerHTML = '';
+            storage.users.forEach(u => {
+                uTable.innerHTML += `
+                    <tr class="border-b hover:bg-stone-50 transition">
+                        <td class="p-6 font-bold">${u.name}</td>
+                        <td class="p-6 text-xs">${u.email}</td>
+                        <td class="p-6 text-center">
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                ${storage.courses.map(c => `
+                                    <button onclick="giveAccess(${u.id}, ${c.id})" class="text-[10px] px-3 py-1 rounded-full ${u.purchased.includes(c.id) ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-100 text-stone-500'}">
+                                        ${u.purchased.includes(c.id) ? '✓ ' : '+ '} ${c.title}
+                                    </button>
+                                `).join('')}
+                            </div>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        function openAddVideoModal() {
-            document.getElementById('videoModal').classList.remove('hidden');
-            document.getElementById('videoModal').classList.add('flex');
-        }
-
-        function closeAddVideoModal() {
-            document.getElementById('videoModal').classList.add('hidden');
-            document.getElementById('videoModal').classList.remove('flex');
-        }
-
-        function handleAddVideo(e) {
-            e.preventDefault();
-            const title = document.getElementById('vidTitle').value;
-            const category = document.getElementById('vidCat').value;
-            const duration = document.getElementById('vidDuration').value;
-            const url = document.getElementById('vidUrl').value;
-            const imageUrl = document.getElementById('vidImg').value;
-            const audioUrl = document.getElementById('vidAudio').value;
-
-            const newVideo = {
-                id: Date.now(),
-                title,
-                category,
-                duration,
-                url,
-                imageUrl,
-                audioUrl
-            };
-
-            videos.push(newVideo);
-            saveVideos();
-            closeAddVideoModal();
-            document.getElementById('addVideoForm').reset();
-            alert("Contenu ajouté avec succès !");
-        }
-
-        function deleteVideo(id) {
-            if (confirm("Voulez-vous vraiment supprimer cette vidéo ?")) {
-                videos = videos.filter(v => v.id !== id);
-                saveVideos();
-            }
-        }
+        // Global Helpers
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+        function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
 
         window.addEventListener('DOMContentLoaded', () => {
-            renderAdminVideos();
-            if (localStorage.getItem('raouia_admin_logged') === 'true') {
-                document.getElementById('dashboardSection').classList.remove('hidden');
-            }
+            updateUI();
+            renderSessions();
+            switchLanguage('fr');
         });
     </script>
 </body>
